@@ -6,6 +6,7 @@
 #include "dictionnaire.hpp"
 #include "reconfort_io.hpp"
 #include "choix_casier.hpp"
+#include "memoire.hpp"
 
 static int nb_tests = 0;
 static int nb_echecs = 0;
@@ -235,6 +236,51 @@ void test_repli()
              "bouton d'appel [2,2] croise mais pas pris : on va d'abord voir [2,3]");
 }
 
+/* Test mémoire : carte mentale et armoire (énoncé 3.2 et 7), sur appartement_01. */
+void test_memoire()
+{
+    std::printf("Test memoire : carte mentale et armoire\n");
+    Connaissances k;
+    k.hauteur = 9;
+    k.largeur = 13;
+    k.depart = Pos{6, 1};
+    k.armoire = Pos{6, 4};
+    k.dictionnaire = Pos{7, 6};
+    k.residents = { {"R1", Pos{6, 11}}, {"R2", Pos{3, 3}} };
+    k.casier_depart = Pos{1, 0};
+
+    Memoire m(k);
+
+    verifier(pos_egales(m.robot, Pos{6, 1}), "le robot est sur sa case de depart");
+    verifier(pos_egales(m.selecteur, Pos{1, 0}), "le selecteur est sur le casier de depart");
+    verifier(!m.carte.case_valide(k.armoire), "l'armoire est une case occupee");
+    verifier(!m.carte.case_valide(Pos{3, 3}), "le resident R2 est une case occupee");
+    verifier(m.carte.case_valide(Pos{5, 7}), "(5,7) jamais vue : supposee libre");
+
+    m.robot = Pos{5, 6};
+    PerceptionRobot p;
+    p.voisins = { "mur", "libre", "mur", "libre" };
+    m.noter_perception(p);
+    verifier(!m.carte.case_valide(Pos{5, 7}), "E = mur : (5,7) devient occupee");
+    verifier(!m.carte.case_valide(Pos{4, 6}), "N = mur : (4,6) devient occupee");
+    verifier(m.carte.case_valide(Pos{6, 6}), "S = libre : (6,6) reste valide");
+
+    p.devant_armoire = true;
+    p.contenu_casier = "photo de famille";
+    m.noter_perception(p);
+    verifier(m.vu[1][0] && m.contenu[1][0] == "photo de famille", "casier (1,0) vu : photo de famille");
+
+    m.selecteur = Pos{1, 3};
+    p.contenu_casier = std::nullopt;
+    m.noter_perception(p);
+    verifier(m.vu[1][3] && m.contenu[1][3] == "", "casier (1,3) vu : vide");
+    verifier(!m.vu[0][0], "casier (0,0) jamais vu");
+
+    m.oublier_armoire();
+    verifier(!m.vu[1][0] && !m.vu[1][3], "apres oublier_armoire : plus aucun casier vu");
+    verifier(!m.carte.case_valide(Pos{5, 7}), "la carte, elle, est gardee");
+}
+
 int main()
 {
     test_planification();
@@ -242,6 +288,7 @@ int main()
     test_dictionnaire();
     test_casiers_a_essayer();
     test_repli();
+    test_memoire();
 
     std::printf("\n%d tests, %d echec(s)\n", nb_tests, nb_echecs);
     return (nb_echecs == 0) ? 0 : 1;
