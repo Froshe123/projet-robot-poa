@@ -7,6 +7,7 @@
 #include "reconfort_io.hpp"
 #include "choix_casier.hpp"
 #include "memoire.hpp"
+#include "interface.hpp"
 
 static int nb_tests = 0;
 static int nb_echecs = 0;
@@ -182,6 +183,56 @@ const char *ARMOIRE_STANDARD[3][8] = {
     { "guirlande lumineuse", "album souvenir", "bouton d appel", "", "telephone", "gants de menage", "tasse de camomille", "" },
 };
 
+/* Test 4 : */
+void test_selecteur() {
+    std::printf("Test 4 : test de selecteur\n");
+    JsonValue carte;
+    JsonValue armoire;
+    try {
+        carte = charger_carte("cartes/appartement_01.json");
+        armoire = charger_armoire("donnees/armoire_standard.json");
+    } catch (const ErreurFichier &e) {
+        verifier(false, std::string("chargement de la carte et de l'armoire : ") + e.what());
+        return;
+    }
+    Environnement env(carte,armoire);
+    Action action;
+    action.type = TypeAction::AVANCER;
+    action.direction = 'E';
+    env.executer(action);
+    env.executer(action);
+    verifier(pos_egales(env.robot(), Pos{6, 3}), "le robot est devant l'armoire");
+    action.type = TypeAction::CHERCHER;
+    //O
+    action.direction = 'O';
+    bool ok = env.executer(action);
+    verifier(ok && pos_egales(env.selecteur(), Pos{1,7}), "CHERCHER O depuis (1,0) : bouclage vers (1,7)");
+    //E
+    action.direction = 'E';
+    ok = env.executer(action);
+    verifier(ok && pos_egales(env.selecteur(), Pos{1,0}), "CHERCHER E depuis (1,7) : bouclage vers (1,0)");
+    //N
+    action.direction = 'N';
+    ok = env.executer(action);
+    verifier(ok && pos_egales(env.selecteur(), Pos{0,0}), "CHERCHER N depuis (1,0) : monte vers (0,0)");
+    //N
+    action.direction = 'N';
+    ok = env.executer(action);
+    verifier(!ok && pos_egales(env.selecteur(), Pos{0,0}), "CHERCHER N depuis (0,0) : refuse, les lignes ne bouclent pas");
+    //S
+    action.direction = 'S';
+    ok = env.executer(action);
+    verifier(ok && pos_egales(env.selecteur(), Pos{1,0}), "CHERCHER S depuis (0,0) : descend vers (1,0)");
+    //S
+    action.direction = 'S';
+    ok = env.executer(action);
+    verifier(ok && pos_egales(env.selecteur(), Pos{2,0}), "CHERCHER S depuis (1,0) : descend vers (2,0)");
+    //S
+    action.direction = 'S';
+    ok = env.executer(action);
+    verifier(!ok && pos_egales(env.selecteur(), Pos{2,0}), "CHERCHER S depuis (2,0) : refuse, derniere ligne");
+}
+
 /* Test 5 : la règle de repli (énoncé 6.2). Au début, le robot a vu toute l'armoire. */
 void test_repli()
 {
@@ -289,6 +340,7 @@ int main()
     test_casiers_a_essayer();
     test_repli();
     test_memoire();
+    test_selecteur();
 
     std::printf("\n%d tests, %d echec(s)\n", nb_tests, nb_echecs);
     return (nb_echecs == 0) ? 0 : 1;

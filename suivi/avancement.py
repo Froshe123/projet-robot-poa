@@ -45,7 +45,7 @@ ELIOTT = [
  ("Validation 5.6", "Dictionnaire : émotion/intensité inconnue, mot en double", TODO, ""),
  ("Validation 5.6", "Erreur -> stderr, code non nul, aucune trace", TODO, ""),
  ("Affichage", "Grille redessinée à chaque pas", TODO, "robot + murs découverts (débogage, vidéo)"),
- ("Tests", "Test 4 : sélecteur, bouclage colonne 7 <-> 0", TODO, ""),
+ ("Tests", "Test 4 : sélecteur, bouclage colonne 7 <-> 0", FAIT, "tests.cpp : test_selecteur, 8 vérifications"),
  ("Tests", "Test 6 : un fichier cassé par catégorie de 5.6", TODO, ""),
  ("Tests", "Test 7 : résident muré (avec Axel)", TODO, ""),
 ]
@@ -60,7 +60,7 @@ ENSEMBLE = [
 
 PROCHAINES = [
  ("Axel", "memoire.cpp, puis agent.cpp (decider, appliquer, bilan)."),
- ("Eliott", "test 4 (sélecteur + bouclage), puis affichage texte, puis validation 5.6."),
+ ("Eliott", "main.cpp avec Axel (boucle + trace), puis validation 5.6 et affichage texte."),
 ]
 
 # --------------------------------------------------------------------------

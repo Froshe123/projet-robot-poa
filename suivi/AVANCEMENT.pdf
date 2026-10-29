@@ -12,17 +12,17 @@ endobj
 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
 endobj
 5 0 obj
-<< /Length 5913 >>
+<< /Length 5914 >>
 stream
 BT 0 0 0 rg /F2 19 Tf 45 797 Td (Robot de Réconfort - avancement du binôme) Tj ET
-BT 0.35 0.35 0.35 rg /F1 10 Tf 45 779 Td (Mis à jour le 04/10/2026 - projet global : 51 %) Tj ET
+BT 0.35 0.35 0.35 rg /F1 10 Tf 45 779 Td (Mis à jour le 29/10/2026 - projet global : 54 %) Tj ET
 0.88 0.88 0.88 rg 45 767 505 7 re f
-0.18 0.49 0.2 rg 45 767 257.55 7 re f
+0.18 0.49 0.2 rg 45 767 272.7 7 re f
 BT 0 0 0 rg /F2 11 Tf 45 745 Td (Prochaines étapes) Tj ET
 BT 0 0 0 rg /F2 9.5 Tf 45 731 Td (Axel :) Tj ET
 BT 0 0 0 rg /F1 9.5 Tf 90 731 Td (memoire.cpp, puis agent.cpp \(decider, appliquer, bilan\).) Tj ET
 BT 0 0 0 rg /F2 9.5 Tf 45 719 Td (Eliott :) Tj ET
-BT 0 0 0 rg /F1 9.5 Tf 90 719 Td (test 4 \(sélecteur + bouclage\), puis affichage texte, puis validation 5.6.) Tj ET
+BT 0 0 0 rg /F1 9.5 Tf 90 719 Td (main.cpp avec Axel \(boucle + trace\), puis validation 5.6 et affichage texte.) Tj ET
 BT 0 0 0 rg /F2 15 Tf 45 693 Td (Axel \(B\)) Tj ET
 BT 0.35 0.35 0.35 rg /F1 9 Tf 45 678 Td (Agent & décision - 79 % : 10 fait, 2 en cours, 2 à faire, 0 bloqué) Tj ET
 0.88 0.88 0.88 rg 45 664 505 7 re f
@@ -95,9 +95,9 @@ BT 1 1 1 rg /F2 7 Tf 49 224 Td (FAIT) Tj ET
 BT 0 0 0 rg /F1 9.5 Tf 105 223 Td (Test 5 : règle de repli) Tj ET
 BT 0.4 0.4 0.4 rg /F1 8 Tf 105 212 Td (tests.cpp : exact, intensité, voisine, armoire vide, ordre respecté) Tj ET
 BT 0 0 0 rg /F2 15 Tf 45 184 Td (Eliott \(A\)) Tj ET
-BT 0.35 0.35 0.35 rg /F1 9 Tf 45 169 Td (Monde & validation - 45 % : 10 fait, 0 en cours, 12 à faire, 0 bloqué) Tj ET
+BT 0.35 0.35 0.35 rg /F1 9 Tf 45 169 Td (Monde & validation - 50 % : 11 fait, 0 en cours, 11 à faire, 0 bloqué) Tj ET
 0.88 0.88 0.88 rg 45 155 505 7 re f
-0.18 0.49 0.2 rg 45 155 227.25 7 re f
+0.18 0.49 0.2 rg 45 155 252.5 7 re f
 BT 0.15 0.2 0.22 rg /F2 10 Tf 45 137 Td (Roue) Tj ET
 0.75 G 0.5 w 45 133 m 550 133 l S
 0.18 0.49 0.2 rg 45 118 52 11 re f
@@ -114,7 +114,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 5 0 R >>
 endobj
 7 0 obj
-<< /Length 6200 >>
+<< /Length 6285 >>
 stream
 BT 0.15 0.2 0.22 rg /F2 10 Tf 45 797 Td (Environnement) Tj ET
 0.75 G 0.5 w 45 793 m 550 793 l S
@@ -185,44 +185,45 @@ BT 0 0 0 rg /F1 9.5 Tf 105 416 Td (Grille redessinée à chaque pas) Tj ET
 BT 0.4 0.4 0.4 rg /F1 8 Tf 105 405 Td (robot + murs découverts \(débogage, vidéo\)) Tj ET
 BT 0.15 0.2 0.22 rg /F2 10 Tf 45 391 Td (Tests) Tj ET
 0.75 G 0.5 w 45 387 m 550 387 l S
-0.62 0.62 0.62 rg 45 372 52 11 re f
-BT 1 1 1 rg /F2 7 Tf 49 375 Td (A FAIRE) Tj ET
+0.18 0.49 0.2 rg 45 372 52 11 re f
+BT 1 1 1 rg /F2 7 Tf 49 375 Td (FAIT) Tj ET
 BT 0 0 0 rg /F1 9.5 Tf 105 374 Td (Test 4 : sélecteur, bouclage colonne 7 <-> 0) Tj ET
-0.62 0.62 0.62 rg 45 357 52 11 re f
-BT 1 1 1 rg /F2 7 Tf 49 360 Td (A FAIRE) Tj ET
-BT 0 0 0 rg /F1 9.5 Tf 105 359 Td (Test 6 : un fichier cassé par catégorie de 5.6) Tj ET
-0.62 0.62 0.62 rg 45 342 52 11 re f
-BT 1 1 1 rg /F2 7 Tf 49 345 Td (A FAIRE) Tj ET
-BT 0 0 0 rg /F1 9.5 Tf 105 344 Td (Test 7 : résident muré \(avec Axel\)) Tj ET
-BT 0 0 0 rg /F2 15 Tf 45 315 Td (Ensemble) Tj ET
-BT 0.35 0.35 0.35 rg /F1 9 Tf 45 300 Td (À la fin, à deux - 0 % : 0 fait, 0 en cours, 5 à faire, 0 bloqué) Tj ET
-0.88 0.88 0.88 rg 45 286 505 7 re f
-BT 0.15 0.2 0.22 rg /F2 10 Tf 45 268 Td (Intégration) Tj ET
-0.75 G 0.5 w 45 264 m 550 264 l S
-0.62 0.62 0.62 rg 45 249 52 11 re f
-BT 1 1 1 rg /F2 7 Tf 49 252 Td (A FAIRE) Tj ET
-BT 0 0 0 rg /F1 9.5 Tf 105 251 Td (main.cpp : boucle Environnement <-> Agent) Tj ET
-BT 0.4 0.4 0.4 rg /F1 8 Tf 105 240 Td (trace, livraisons, résumé) Tj ET
-BT 0.15 0.2 0.22 rg /F2 10 Tf 45 226 Td (Relecture) Tj ET
-0.75 G 0.5 w 45 222 m 550 222 l S
-0.62 0.62 0.62 rg 45 207 52 11 re f
-BT 1 1 1 rg /F2 7 Tf 49 210 Td (A FAIRE) Tj ET
-BT 0 0 0 rg /F1 9.5 Tf 105 209 Td (Relecture croisée) Tj ET
-BT 0.4 0.4 0.4 rg /F1 8 Tf 105 198 Td (Eliott : agent/graphe/carte_robot ; Axel : environnement/roue) Tj ET
-BT 0.15 0.2 0.22 rg /F2 10 Tf 45 184 Td (Rendu) Tj ET
-0.75 G 0.5 w 45 180 m 550 180 l S
-0.62 0.62 0.62 rg 45 165 52 11 re f
-BT 1 1 1 rg /F2 7 Tf 49 168 Td (A FAIRE) Tj ET
-BT 0 0 0 rg /F1 9.5 Tf 105 167 Td (Rapport 3 pages) Tj ET
-BT 0.4 0.4 0.4 rg /F1 8 Tf 105 156 Td (architecture, replanification, repli, 3 échecs) Tj ET
-0.62 0.62 0.62 rg 45 140 52 11 re f
-BT 1 1 1 rg /F2 7 Tf 49 143 Td (A FAIRE) Tj ET
-BT 0 0 0 rg /F1 9.5 Tf 105 142 Td (Vidéo 1 min 30) Tj ET
-BT 0.4 0.4 0.4 rg /F1 8 Tf 105 131 Td (robot qui se cogne et replanifie) Tj ET
-0.62 0.62 0.62 rg 45 115 52 11 re f
-BT 1 1 1 rg /F2 7 Tf 49 118 Td (A FAIRE) Tj ET
-BT 0 0 0 rg /F1 9.5 Tf 105 117 Td (README + rendu.json) Tj ET
-BT 0.4 0.4 0.4 rg /F1 8 Tf 105 106 Td (commande de test ; C++, make, commande, vidéo) Tj ET
+BT 0.4 0.4 0.4 rg /F1 8 Tf 105 363 Td (tests.cpp : test_selecteur, 8 vérifications) Tj ET
+0.62 0.62 0.62 rg 45 347 52 11 re f
+BT 1 1 1 rg /F2 7 Tf 49 350 Td (A FAIRE) Tj ET
+BT 0 0 0 rg /F1 9.5 Tf 105 349 Td (Test 6 : un fichier cassé par catégorie de 5.6) Tj ET
+0.62 0.62 0.62 rg 45 332 52 11 re f
+BT 1 1 1 rg /F2 7 Tf 49 335 Td (A FAIRE) Tj ET
+BT 0 0 0 rg /F1 9.5 Tf 105 334 Td (Test 7 : résident muré \(avec Axel\)) Tj ET
+BT 0 0 0 rg /F2 15 Tf 45 305 Td (Ensemble) Tj ET
+BT 0.35 0.35 0.35 rg /F1 9 Tf 45 290 Td (À la fin, à deux - 0 % : 0 fait, 0 en cours, 5 à faire, 0 bloqué) Tj ET
+0.88 0.88 0.88 rg 45 276 505 7 re f
+BT 0.15 0.2 0.22 rg /F2 10 Tf 45 258 Td (Intégration) Tj ET
+0.75 G 0.5 w 45 254 m 550 254 l S
+0.62 0.62 0.62 rg 45 239 52 11 re f
+BT 1 1 1 rg /F2 7 Tf 49 242 Td (A FAIRE) Tj ET
+BT 0 0 0 rg /F1 9.5 Tf 105 241 Td (main.cpp : boucle Environnement <-> Agent) Tj ET
+BT 0.4 0.4 0.4 rg /F1 8 Tf 105 230 Td (trace, livraisons, résumé) Tj ET
+BT 0.15 0.2 0.22 rg /F2 10 Tf 45 216 Td (Relecture) Tj ET
+0.75 G 0.5 w 45 212 m 550 212 l S
+0.62 0.62 0.62 rg 45 197 52 11 re f
+BT 1 1 1 rg /F2 7 Tf 49 200 Td (A FAIRE) Tj ET
+BT 0 0 0 rg /F1 9.5 Tf 105 199 Td (Relecture croisée) Tj ET
+BT 0.4 0.4 0.4 rg /F1 8 Tf 105 188 Td (Eliott : agent/graphe/carte_robot ; Axel : environnement/roue) Tj ET
+BT 0.15 0.2 0.22 rg /F2 10 Tf 45 174 Td (Rendu) Tj ET
+0.75 G 0.5 w 45 170 m 550 170 l S
+0.62 0.62 0.62 rg 45 155 52 11 re f
+BT 1 1 1 rg /F2 7 Tf 49 158 Td (A FAIRE) Tj ET
+BT 0 0 0 rg /F1 9.5 Tf 105 157 Td (Rapport 3 pages) Tj ET
+BT 0.4 0.4 0.4 rg /F1 8 Tf 105 146 Td (architecture, replanification, repli, 3 échecs) Tj ET
+0.62 0.62 0.62 rg 45 130 52 11 re f
+BT 1 1 1 rg /F2 7 Tf 49 133 Td (A FAIRE) Tj ET
+BT 0 0 0 rg /F1 9.5 Tf 105 132 Td (Vidéo 1 min 30) Tj ET
+BT 0.4 0.4 0.4 rg /F1 8 Tf 105 121 Td (robot qui se cogne et replanifie) Tj ET
+0.62 0.62 0.62 rg 45 105 52 11 re f
+BT 1 1 1 rg /F2 7 Tf 49 108 Td (A FAIRE) Tj ET
+BT 0 0 0 rg /F1 9.5 Tf 105 107 Td (README + rendu.json) Tj ET
+BT 0.4 0.4 0.4 rg /F1 8 Tf 105 96 Td (commande de test ; C++, make, commande, vidéo) Tj ET
 endstream
 endobj
 8 0 obj
@@ -236,11 +237,11 @@ xref
 0000000121 00000 n 
 0000000218 00000 n 
 0000000320 00000 n 
-0000006285 00000 n 
-0000006421 00000 n 
-0000012673 00000 n 
+0000006286 00000 n 
+0000006422 00000 n 
+0000012759 00000 n 
 trailer
 << /Size 9 /Root 1 0 R >>
 startxref
-12809
+12895
 %%EOF
