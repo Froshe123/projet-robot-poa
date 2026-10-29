@@ -1,6 +1,7 @@
 #include "validation.hpp"
 #include "reconfort_io.hpp"
 #include "types.hpp"
+#include <set>
 #include <string>
 #include <vector>
 
@@ -48,6 +49,18 @@ static bool dans_grille(Pos p, int hauteur, int largeur)
 static char symbole(const JsonValue &grille, Pos p)
 {
     return (*grille.index(p.l)->chaine())[p.c];
+}
+
+/* Le tableau JSON de chaînes 'liste' contient-il 'mot' ? */
+static bool contient(const JsonValue &liste, const std::string &mot)
+{
+    for (size_t i = 0; i < liste.taille(); i++) {
+        const std::string *s = liste.index(i)->chaine();
+        if (s != nullptr && *s == mot) {
+            return true;
+        }
+    }
+    return false;
 }
 
 /* "(l, c)", pour les messages d'erreur. */
@@ -214,24 +227,58 @@ void valider_armoire(const JsonValue &armoire)
 
 void valider_dictionnaire(const JsonValue &dictionnaire)
 {
-    /* À compléter :
-     *   1. champs obligatoires et leur type : emotions, intensites,
-     *      entrees (formes, emotion, intensite)
-     *   2. chaque entrée a une émotion et une intensité connues
-     *      (présentes dans les listes emotions / intensites)
-     *   3. un même mot n'apparaît pas dans deux entrées */
-    (void)dictionnaire;
+    /* 1. champs obligatoires et leur type */
+    const JsonValue &emotions = champ(dictionnaire, "emotions", JsonType::Array, "dictionnaire");
+    const JsonValue &intensites = champ(dictionnaire, "intensites", JsonType::Array, "dictionnaire");
+    const JsonValue &entrees = champ(dictionnaire, "entrees", JsonType::Array, "dictionnaire");
+    for (size_t i = 0; i < emotions.taille(); i++) {
+        if (!emotions.index(i)->est_chaine()) {
+            throw ErreurFichier("dictionnaire : l'emotion numero " + std::to_string(i) + " n'est pas une chaine");
+        }
+    }
+    for (size_t i = 0; i < intensites.taille(); i++) {
+        if (!intensites.index(i)->est_chaine()) {
+            throw ErreurFichier("dictionnaire : l'intensite numero " + std::to_string(i) + " n'est pas une chaine");
+        }
+    }
+
+    std::set<std::string> mots_vus;   /* tous les mots déjà rencontrés */
+    for (size_t i = 0; i < entrees.taille(); i++) {
+        const JsonValue &e = *entrees.index(i);
+        std::string numero = std::to_string(i);
+        if (!e.est_objet()) {
+            throw ErreurFichier("dictionnaire : l'entree numero " + numero + " n'est pas un objet");
+        }
+        const JsonValue &formes = champ(e, "formes", JsonType::Array, "dictionnaire");
+        const std::string &emotion = *champ(e, "emotion", JsonType::String, "dictionnaire").chaine();
+        const std::string &intensite = *champ(e, "intensite", JsonType::String, "dictionnaire").chaine();
+
+        /* 2. émotion et intensité connues */
+        if (!contient(emotions, emotion)) {
+            throw ErreurFichier("dictionnaire : l'entree numero " + numero + " a une emotion inconnue '" + emotion + "'");
+        }
+        if (!contient(intensites, intensite)) {
+            throw ErreurFichier("dictionnaire : l'entree numero " + numero + " a une intensite inconnue '" + intensite + "'");
+        }
+
+        /* 3. un même mot n'apparaît pas dans deux entrées */
+        for (size_t j = 0; j < formes.taille(); j++) {
+            const JsonValue *forme = formes.index(j);
+            if (!forme->est_chaine()) {
+                throw ErreurFichier("dictionnaire : une forme de l'entree numero " + numero + " n'est pas une chaine");
+            }
+            if (!mots_vus.insert(*forme->chaine()).second) {
+                throw ErreurFichier("dictionnaire : le mot '" + *forme->chaine() + "' apparait dans deux entrees");
+            }
+        }
+    }
 }
 
 /* ===================== Scénario ===================== */
 
 void valider_scenario(const JsonValue &scenario, const JsonValue &carte)
 {
-    /* À compléter :
-     *   1. champs obligatoires et leur type : carte, armoire,
-     *      demandes (numero, resident, message)
-     *   2. le scénario est prévu pour cette carte : scenario.carte == carte.nom
-     *   3. chaque demande vise un résident présent dans la carte */
+    /* 1. champs obligatoires et leur type */
     const JsonValue &carte_visee = champ (scenario, "carte", JsonType::String,"scenario");
     champ (scenario, "armoire", JsonType::String,"scenario");
     const JsonValue &demandes = champ (scenario, "demandes", JsonType::Array,"scenario");
@@ -243,5 +290,26 @@ void valider_scenario(const JsonValue &scenario, const JsonValue &carte)
         champ(d, "numero", JsonType::Number, "scenario");
         champ(d, "resident", JsonType::String, "scenario");
         champ(d, "message", JsonType::String, "scenario");
+
+        /* 3. la demande vise un résident présent dans la carte
+         * (carte déjà validée par valider_carte : residents et id existent) */
+        const std::string &id_demande = *d.get("resident")->chaine();
+        const JsonValue &residents = *carte.get("residents");
+        bool trouve = false;
+        for (size_t j = 0; j < residents.taille(); j++) {
+            if (*residents.index(j)->get("id")->chaine() == id_demande) {
+                trouve = true;
+            }
+        }
+        if (!trouve) {
+            throw ErreurFichier("scenario : la demande numero " + std::to_string(i) +
+                                " vise le resident '" + id_demande + "', absent de la carte");
+        }
+    }
+
+    /* 2. le scénario est prévu pour cette carte */
+    const std::string &nom_carte = *carte.get("nom")->chaine();
+    if ( *carte_visee.chaine() != nom_carte){
+        throw ErreurFichier( "scenario : prevu pour la carte '" + *carte_visee.chaine() + "', mais la carte fournie est '" + nom_carte + "'");
     }
 }

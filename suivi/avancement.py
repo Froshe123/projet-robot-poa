@@ -37,13 +37,13 @@ ELIOTT = [
  ("Environnement", "viser_resident(), robot(), selecteur()", FAIT, ""),
  ("Environnement", "executer() : légalité des actions", FAIT, "les 6 actions ; FIN refusée (default)"),
  ("Validation 5.6", "Fichier absent / illisible / pas UTF-8, JSON invalide, format/version", FAIT, "déjà assuré par charger_*() dans reconfort_io.cpp"),
- ("Validation 5.6", "Champ obligatoire absent ou mauvais type", COURS, "carte et armoire faites ; reste dictionnaire, scénario"),
+ ("Validation 5.6", "Champ obligatoire absent ou mauvais type", FAIT, "valider_carte / armoire / dictionnaire / scenario"),
  ("Validation 5.6", "Grille non rectangulaire, dimensions, position hors grille", FAIT, "valider_carte"),
  ("Validation 5.6", "Symboles P / A / D / R cohérents avec les positions", FAIT, "valider_carte"),
- ("Validation 5.6", "Résidents en double, autre carte, résident absent", COURS, "doublons faits (valider_carte) ; reste valider_scenario"),
+ ("Validation 5.6", "Résidents en double, autre carte, résident absent", FAIT, "valider_carte + valider_scenario"),
  ("Validation 5.6", "Casiers : hors armoire, doublon, étiquette, casier_depart", FAIT, "valider_armoire"),
- ("Validation 5.6", "Dictionnaire : émotion/intensité inconnue, mot en double", TODO, ""),
- ("Validation 5.6", "Erreur -> stderr, code non nul, aucune trace", TODO, ""),
+ ("Validation 5.6", "Dictionnaire : émotion/intensité inconnue, mot en double", FAIT, "valider_dictionnaire"),
+ ("Validation 5.6", "Erreur -> stderr, code non nul, aucune trace", COURS, "à brancher dans main.cpp (try/catch avant la simulation)"),
  ("Affichage", "Grille redessinée à chaque pas", TODO, "robot + murs découverts (débogage, vidéo)"),
  ("Tests", "Test 4 : sélecteur, bouclage colonne 7 <-> 0", FAIT, "tests.cpp : test_selecteur, 8 vérifications"),
  ("Tests", "Test 6 : un fichier cassé par catégorie de 5.6", TODO, ""),
@@ -60,7 +60,7 @@ ENSEMBLE = [
 
 PROCHAINES = [
  ("Axel", "memoire.cpp, puis agent.cpp (decider, appliquer, bilan)."),
- ("Eliott", "valider_scenario, puis valider_dictionnaire, puis brancher la validation dans le main."),
+ ("Eliott", "brancher la validation dans le main, puis test 6 (un fichier cassé par catégorie)."),
 ]
 
 # --------------------------------------------------------------------------
