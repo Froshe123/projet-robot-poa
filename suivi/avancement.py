@@ -36,8 +36,8 @@ ELIOTT = [
  ("Environnement", "percevoir()", FAIT, "4 voisins N/S/E/O, devant_armoire, contenu_casier"),
  ("Environnement", "viser_resident(), robot(), selecteur()", FAIT, ""),
  ("Environnement", "executer() : légalité des actions", FAIT, "les 6 actions ; FIN refusée (default)"),
- ("Validation 5.6", "Fichier absent / illisible / pas UTF-8, JSON invalide", TODO, ""),
- ("Validation 5.6", "Champ obligatoire absent ou mauvais type", TODO, "dans les 4 fichiers"),
+ ("Validation 5.6", "Fichier absent / illisible / pas UTF-8, JSON invalide, format/version", FAIT, "déjà assuré par charger_*() dans reconfort_io.cpp"),
+ ("Validation 5.6", "Champ obligatoire absent ou mauvais type", COURS, "dans les 4 fichiers"),
  ("Validation 5.6", "Grille non rectangulaire, dimensions, position hors grille", TODO, ""),
  ("Validation 5.6", "Symboles P / A / D / R cohérents avec les positions", TODO, ""),
  ("Validation 5.6", "Résidents en double, autre carte, résident absent", TODO, ""),
@@ -60,7 +60,7 @@ ENSEMBLE = [
 
 PROCHAINES = [
  ("Axel", "memoire.cpp, puis agent.cpp (decider, appliquer, bilan)."),
- ("Eliott", "main.cpp avec Axel (boucle + trace), puis validation 5.6 et affichage texte."),
+ ("Eliott", "validation.cpp : valider_carte (champs, grille, positions, symboles, doublons), puis armoire, dictionnaire, scénario."),
 ]
 
 # --------------------------------------------------------------------------

@@ -3,7 +3,7 @@ CXXFLAGS = -std=c++17 -Wall -Wextra -g
 
 BASE = json.o reconfort_io.o
 
-ROBOT = types.o carte_robot.o graphe.o dictionnaire.o roue.o choix_casier.o environnement.o memoire.o agent.o
+ROBOT = types.o carte_robot.o graphe.o dictionnaire.o roue.o choix_casier.o environnement.o memoire.o agent.o validation.o
 
 all: demo test_graphe $(ROBOT)
 
