@@ -8,6 +8,7 @@
 #include "choix_casier.hpp"
 #include "memoire.hpp"
 #include "interface.hpp"
+#include "validation.hpp"
 
 static int nb_tests = 0;
 static int nb_echecs = 0;
@@ -287,6 +288,57 @@ void test_repli()
              "bouton d'appel [2,2] croise mais pas pris : on va d'abord voir [2,3]");
 }
 
+bool est_refuse(const std::string &type, const std::string &chemin){
+    try{
+        if (type == "carte"){
+            valider_carte(charger_carte(chemin));
+        }
+        else if (type == "armoire"){
+            valider_armoire(charger_armoire(chemin));
+        }
+        else if (type == "dictionnaire"){
+            valider_dictionnaire(charger_dictionnaire(chemin));
+        }
+        else if (type == "scenario"){
+            valider_scenario(charger_scenario(chemin), charger_carte("cartes/appartement_01.json"));
+        }
+    }
+    catch (const ErreurFichier &){
+        return true;
+    }
+    return false;
+    
+}
+
+
+/* Test 6 : test validation */
+void test_validation(){
+    std::printf("Test 6 : validation des fichiers\n");
+    verifier(!est_refuse("carte", "cartes/appartement_01.json"), "carte valide : acceptee");
+    verifier(!est_refuse("armoire", "donnees/armoire_standard.json"), "armoire valide : acceptee");
+    verifier(!est_refuse("dictionnaire", "donnees/dictionnaire.json"), "dictionnaire valide : accepte");
+    verifier(!est_refuse("scenario", "cartes/scenario_01.json"), "scenario valide : accepte");
+    verifier(est_refuse("carte", "tests_casses/n_existe_pas.json"), "fichier absent : refuse");
+    verifier(est_refuse("carte", "tests_casses/pas_utf8.json"), "fichier non UTF-8 : refuse");
+    verifier(est_refuse("carte", "tests_casses/json_invalide.json"), "JSON invalide : refuse");
+    verifier(est_refuse("carte", "tests_casses/mauvais_format.json"), "format inattendu : refuse");
+    verifier(est_refuse("carte", "tests_casses/champ_absent.json"), "champ absent : refuse");
+    verifier(est_refuse("carte", "tests_casses/mauvais_type.json"), "champ du mauvais type : refuse");
+    verifier(est_refuse("carte", "tests_casses/grille_non_rectangulaire.json"), "grille non rectangulaire : refuse");
+    verifier(est_refuse("carte", "tests_casses/dimensions_incoherentes.json"), "dimensions incoherentes : refuse");
+    verifier(est_refuse("carte", "tests_casses/position_hors_grille.json"), "position hors de la grille : refuse");
+    verifier(est_refuse("carte", "tests_casses/symbole_incorrect.json"), "symbole incorrect sous l'armoire : refuse");
+    verifier(est_refuse("carte", "tests_casses/residents_meme_id.json"), "deux residents meme id : refuse");
+    verifier(est_refuse("scenario", "tests_casses/scenario_autre_carte.json"), "scenario d'une autre carte : refuse");
+    verifier(est_refuse("scenario", "tests_casses/scenario_resident_absent.json"), "demande a un resident absent : refuse");
+    verifier(est_refuse("armoire", "tests_casses/casier_hors_armoire.json"), "casier hors de l'armoire : refuse");
+    verifier(est_refuse("armoire", "tests_casses/casier_en_double.json"), "casier en double : refuse");
+    verifier(est_refuse("armoire", "tests_casses/casier_mauvaise_etiquette.json"), "etiquette de casier incoherente : refuse");
+    verifier(est_refuse("armoire", "tests_casses/casier_depart_hors_armoire.json"), "casier_depart hors de l'armoire : refuse");
+    verifier(est_refuse("dictionnaire", "tests_casses/dico_emotion_inconnue.json"), "emotion inconnue : refuse");
+    verifier(est_refuse("dictionnaire", "tests_casses/dico_mot_en_double.json"), "mot dans deux entrees : refuse");
+}
+
 /* Test mémoire : carte mentale et armoire (énoncé 3.2 et 7), sur appartement_01. */
 void test_memoire()
 {
@@ -341,6 +393,7 @@ int main()
     test_repli();
     test_memoire();
     test_selecteur();
+    test_validation();
 
     std::printf("\n%d tests, %d echec(s)\n", nb_tests, nb_echecs);
     return (nb_echecs == 0) ? 0 : 1;

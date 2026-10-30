@@ -46,7 +46,7 @@ ELIOTT = [
  ("Validation 5.6", "Erreur -> stderr, code non nul, aucune trace", COURS, "à brancher dans main.cpp (try/catch avant la simulation)"),
  ("Affichage", "Grille redessinée à chaque pas", TODO, "robot + murs découverts (débogage, vidéo)"),
  ("Tests", "Test 4 : sélecteur, bouclage colonne 7 <-> 0", FAIT, "tests.cpp : test_selecteur, 8 vérifications"),
- ("Tests", "Test 6 : un fichier cassé par catégorie de 5.6", TODO, ""),
+ ("Tests", "Test 6 : un fichier cassé par catégorie de 5.6", FAIT, "tests.cpp : test_validation, 4 fichiers valides + 19 cassés (tests_casses/)"),
  ("Tests", "Test 7 : résident muré (avec Axel)", TODO, ""),
 ]
 
@@ -60,7 +60,7 @@ ENSEMBLE = [
 
 PROCHAINES = [
  ("Axel", "memoire.cpp, puis agent.cpp (decider, appliquer, bilan)."),
- ("Eliott", "brancher la validation dans le main, puis test 6 (un fichier cassé par catégorie)."),
+ ("Eliott", "main.cpp avec Axel (y brancher la validation), puis affichage texte, puis test 7."),
 ]
 
 # --------------------------------------------------------------------------
