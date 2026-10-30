@@ -12,109 +12,110 @@ endobj
 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
 endobj
 5 0 obj
-<< /Length 5919 >>
+<< /Length 5966 >>
 stream
 BT 0 0 0 rg /F2 19 Tf 45 797 Td (Robot de Réconfort - avancement du binôme) Tj ET
-BT 0.35 0.35 0.35 rg /F1 10 Tf 45 779 Td (Mis à jour le 30/10/2026 - projet global : 74 %) Tj ET
+BT 0.35 0.35 0.35 rg /F1 10 Tf 45 779 Td (Mis à jour le 30/10/2026 - projet global : 76 %) Tj ET
 0.88 0.88 0.88 rg 45 767 505 7 re f
-0.18 0.49 0.2 rg 45 767 373.7 7 re f
+0.18 0.49 0.2 rg 45 767 383.8 7 re f
 BT 0 0 0 rg /F2 11 Tf 45 745 Td (Prochaines étapes) Tj ET
 BT 0 0 0 rg /F2 9.5 Tf 45 731 Td (Axel :) Tj ET
 BT 0 0 0 rg /F1 9.5 Tf 90 731 Td (memoire.cpp, puis agent.cpp \(decider, appliquer, bilan\).) Tj ET
 BT 0 0 0 rg /F2 9.5 Tf 45 719 Td (Eliott :) Tj ET
-BT 0 0 0 rg /F1 9.5 Tf 90 719 Td (main.cpp avec Axel \(y brancher la validation\), puis affichage texte, puis test 7.) Tj ET
-BT 0 0 0 rg /F2 15 Tf 45 693 Td (Axel \(B\)) Tj ET
-BT 0.35 0.35 0.35 rg /F1 9 Tf 45 678 Td (Agent & décision - 79 % : 10 fait, 2 en cours, 2 à faire, 0 bloqué) Tj ET
-0.88 0.88 0.88 rg 45 664 505 7 re f
-0.18 0.49 0.2 rg 45 664 398.95 7 re f
-BT 0.15 0.2 0.22 rg /F2 10 Tf 45 646 Td (Carte & mémoire) Tj ET
-0.75 G 0.5 w 45 642 m 550 642 l S
-0.18 0.49 0.2 rg 45 627 52 11 re f
-BT 1 1 1 rg /F2 7 Tf 49 630 Td (FAIT) Tj ET
-BT 0 0 0 rg /F1 9.5 Tf 105 629 Td (Carte mentale \(hypothèse optimiste\)) Tj ET
-BT 0.4 0.4 0.4 rg /F1 8 Tf 105 618 Td (carte_robot.cpp/.hpp : INCONNUE/LIBRE/OCCUPEE, mise à jour par case) Tj ET
-0.94 0.56 0 rg 45 602 52 11 re f
-BT 1 1 1 rg /F2 7 Tf 49 605 Td (EN COURS) Tj ET
-BT 0 0 0 rg /F1 9.5 Tf 105 604 Td (Mémoire du robot \(struct Memoire\)) Tj ET
-BT 0.4 0.4 0.4 rg /F1 8 Tf 105 593 Td (memoire.hpp écrit \(carte, robot, sélecteur, vu/contenu\) ; memoire.cpp) Tj ET
-BT 0.4 0.4 0.4 rg /F1 8 Tf 105 583 Td (à écrire) Tj ET
-0.94 0.56 0 rg 45 567 52 11 re f
-BT 1 1 1 rg /F2 7 Tf 49 570 Td (EN COURS) Tj ET
-BT 0 0 0 rg /F1 9.5 Tf 105 569 Td (Mise à jour à chaque perception) Tj ET
-BT 0.4 0.4 0.4 rg /F1 8 Tf 105 558 Td (noter_perception / oublier_armoire déclarés, non implémentés) Tj ET
-BT 0.15 0.2 0.22 rg /F2 10 Tf 45 544 Td (Planification) Tj ET
-0.75 G 0.5 w 45 540 m 550 540 l S
-0.18 0.49 0.2 rg 45 525 52 11 re f
-BT 1 1 1 rg /F2 7 Tf 49 528 Td (FAIT) Tj ET
-BT 0 0 0 rg /F1 9.5 Tf 105 527 Td (BFS + file \(plus court chemin\)) Tj ET
-BT 0.4 0.4 0.4 rg /F1 8 Tf 105 516 Td (graphe.cpp : prochain_pas, file écrite à la main, sans lib) Tj ET
-0.18 0.49 0.2 rg 45 500 52 11 re f
-BT 1 1 1 rg /F2 7 Tf 49 503 Td (FAIT) Tj ET
-BT 0 0 0 rg /F1 9.5 Tf 105 502 Td (Replanification à chaque pas) Tj ET
-BT 0.4 0.4 0.4 rg /F1 8 Tf 105 491 Td (un pas puis recalcul ; PAS_DE_CHEMIN si inaccessible) Tj ET
-BT 0.15 0.2 0.22 rg /F2 10 Tf 45 477 Td (Décision) Tj ET
-0.75 G 0.5 w 45 473 m 550 473 l S
-0.18 0.49 0.2 rg 45 458 52 11 re f
-BT 1 1 1 rg /F2 7 Tf 49 461 Td (FAIT) Tj ET
-BT 0 0 0 rg /F1 9.5 Tf 105 460 Td (Lecture du dictionnaire \(6.1\)) Tj ET
-BT 0.4 0.4 0.4 rg /F1 8 Tf 105 449 Td (dictionnaire.cpp : premier mot reconnu, sinon indéterminée) Tj ET
-0.18 0.49 0.2 rg 45 433 52 11 re f
-BT 1 1 1 rg /F2 7 Tf 49 436 Td (FAIT) Tj ET
-BT 0 0 0 rg /F1 9.5 Tf 105 435 Td (Choix du casier \(6.2\) : 15 candidats triés) Tj ET
-BT 0.4 0.4 0.4 rg /F1 8 Tf 105 424 Td (choix_casier.cpp : casiers_a_essayer, prochain_casier, étiquettes de) Tj ET
-BT 0.4 0.4 0.4 rg /F1 8 Tf 105 414 Td (repli) Tj ET
-0.18 0.49 0.2 rg 45 398 52 11 re f
-BT 1 1 1 rg /F2 7 Tf 49 401 Td (FAIT) Tj ET
-BT 0 0 0 rg /F1 9.5 Tf 105 400 Td (Itinéraire du sélecteur \(annexe C\)) Tj ET
-BT 0.4 0.4 0.4 rg /F1 8 Tf 105 389 Td (pas_du_selecteur : vertical d'abord + bouclage des colonnes \(C.3,) Tj ET
-BT 0.4 0.4 0.4 rg /F1 8 Tf 105 379 Td (accepté par C.4\)) Tj ET
-0.62 0.62 0.62 rg 45 363 52 11 re f
-BT 1 1 1 rg /F2 7 Tf 49 366 Td (A FAIRE) Tj ET
-BT 0 0 0 rg /F1 9.5 Tf 105 365 Td (Enchaînement des 4 étapes par demande) Tj ET
-BT 0.4 0.4 0.4 rg /F1 8 Tf 105 354 Td (agent.cpp : classe Agent de interface.hpp \(decider, appliquer, bilan\)) Tj ET
-0.62 0.62 0.62 rg 45 338 52 11 re f
-BT 1 1 1 rg /F2 7 Tf 49 341 Td (A FAIRE) Tj ET
-BT 0 0 0 rg /F1 9.5 Tf 105 340 Td (Gestion des échecs \(6.3\)) Tj ET
-BT 0.4 0.4 0.4 rg /F1 8 Tf 105 329 Td (résident inaccessible, armoire vide, émotion indéterminée) Tj ET
-BT 0.15 0.2 0.22 rg /F2 10 Tf 45 315 Td (Tests) Tj ET
-0.75 G 0.5 w 45 311 m 550 311 l S
-0.18 0.49 0.2 rg 45 296 52 11 re f
-BT 1 1 1 rg /F2 7 Tf 49 299 Td (FAIT) Tj ET
-BT 0 0 0 rg /F1 9.5 Tf 105 298 Td (Test 1 : planification petite grille) Tj ET
-BT 0.4 0.4 0.4 rg /F1 8 Tf 105 287 Td (tests.cpp : mini-grille B.3, chemin SSEENE, puis X si bouché) Tj ET
-0.18 0.49 0.2 rg 45 271 52 11 re f
-BT 1 1 1 rg /F2 7 Tf 49 274 Td (FAIT) Tj ET
-BT 0 0 0 rg /F1 9.5 Tf 105 273 Td (Test 2 : replanification \(mur découvert\)) Tj ET
-BT 0.4 0.4 0.4 rg /F1 8 Tf 105 262 Td (tests.cpp : murs vus en \(1,2\), nouveau chemin OSSEENE) Tj ET
-0.18 0.49 0.2 rg 45 246 52 11 re f
-BT 1 1 1 rg /F2 7 Tf 49 249 Td (FAIT) Tj ET
-BT 0 0 0 rg /F1 9.5 Tf 105 248 Td (Test 3 : lecture du dictionnaire) Tj ET
-BT 0.4 0.4 0.4 rg /F1 8 Tf 105 237 Td (tests.cpp : 8 émotions + 2 mots connus + aucun mot) Tj ET
-0.18 0.49 0.2 rg 45 221 52 11 re f
-BT 1 1 1 rg /F2 7 Tf 49 224 Td (FAIT) Tj ET
-BT 0 0 0 rg /F1 9.5 Tf 105 223 Td (Test 5 : règle de repli) Tj ET
-BT 0.4 0.4 0.4 rg /F1 8 Tf 105 212 Td (tests.cpp : exact, intensité, voisine, armoire vide, ordre respecté) Tj ET
-BT 0 0 0 rg /F2 15 Tf 45 184 Td (Eliott \(A\)) Tj ET
-BT 0.35 0.35 0.35 rg /F1 9 Tf 45 169 Td (Monde & validation - 89 % : 19 fait, 1 en cours, 2 à faire, 0 bloqué) Tj ET
-0.88 0.88 0.88 rg 45 155 505 7 re f
-0.18 0.49 0.2 rg 45 155 449.45 7 re f
-BT 0.15 0.2 0.22 rg /F2 10 Tf 45 137 Td (Roue) Tj ET
-0.75 G 0.5 w 45 133 m 550 133 l S
-0.18 0.49 0.2 rg 45 118 52 11 re f
-BT 1 1 1 rg /F2 7 Tf 49 121 Td (FAIT) Tj ET
-BT 0 0 0 rg /F1 9.5 Tf 105 120 Td (roue_avancer : bouclage dans [0, n-1]) Tj ET
-BT 0.4 0.4 0.4 rg /F1 8 Tf 105 109 Td (roue.cpp : pas négatifs gérés) Tj ET
-0.18 0.49 0.2 rg 45 93 52 11 re f
-BT 1 1 1 rg /F2 7 Tf 49 96 Td (FAIT) Tj ET
-BT 0 0 0 rg /F1 9.5 Tf 105 95 Td (roue_distance : plus court côté) Tj ET
-BT 0.4 0.4 0.4 rg /F1 8 Tf 105 84 Td (roue.cpp : résultat dans [0, n/2]) Tj ET
+BT 0 0 0 rg /F1 9.5 Tf 90 719 Td (main.cpp : charger_entrees puis perception_pour_trace ; ensuite simuler_demande avec) Tj ET
+BT 0 0 0 rg /F1 9.5 Tf 90 707 Td (Axel.) Tj ET
+BT 0 0 0 rg /F2 15 Tf 45 681 Td (Axel \(B\)) Tj ET
+BT 0.35 0.35 0.35 rg /F1 9 Tf 45 666 Td (Agent & décision - 79 % : 10 fait, 2 en cours, 2 à faire, 0 bloqué) Tj ET
+0.88 0.88 0.88 rg 45 652 505 7 re f
+0.18 0.49 0.2 rg 45 652 398.95 7 re f
+BT 0.15 0.2 0.22 rg /F2 10 Tf 45 634 Td (Carte & mémoire) Tj ET
+0.75 G 0.5 w 45 630 m 550 630 l S
+0.18 0.49 0.2 rg 45 615 52 11 re f
+BT 1 1 1 rg /F2 7 Tf 49 618 Td (FAIT) Tj ET
+BT 0 0 0 rg /F1 9.5 Tf 105 617 Td (Carte mentale \(hypothèse optimiste\)) Tj ET
+BT 0.4 0.4 0.4 rg /F1 8 Tf 105 606 Td (carte_robot.cpp/.hpp : INCONNUE/LIBRE/OCCUPEE, mise à jour par case) Tj ET
+0.94 0.56 0 rg 45 590 52 11 re f
+BT 1 1 1 rg /F2 7 Tf 49 593 Td (EN COURS) Tj ET
+BT 0 0 0 rg /F1 9.5 Tf 105 592 Td (Mémoire du robot \(struct Memoire\)) Tj ET
+BT 0.4 0.4 0.4 rg /F1 8 Tf 105 581 Td (memoire.hpp écrit \(carte, robot, sélecteur, vu/contenu\) ; memoire.cpp) Tj ET
+BT 0.4 0.4 0.4 rg /F1 8 Tf 105 571 Td (à écrire) Tj ET
+0.94 0.56 0 rg 45 555 52 11 re f
+BT 1 1 1 rg /F2 7 Tf 49 558 Td (EN COURS) Tj ET
+BT 0 0 0 rg /F1 9.5 Tf 105 557 Td (Mise à jour à chaque perception) Tj ET
+BT 0.4 0.4 0.4 rg /F1 8 Tf 105 546 Td (noter_perception / oublier_armoire déclarés, non implémentés) Tj ET
+BT 0.15 0.2 0.22 rg /F2 10 Tf 45 532 Td (Planification) Tj ET
+0.75 G 0.5 w 45 528 m 550 528 l S
+0.18 0.49 0.2 rg 45 513 52 11 re f
+BT 1 1 1 rg /F2 7 Tf 49 516 Td (FAIT) Tj ET
+BT 0 0 0 rg /F1 9.5 Tf 105 515 Td (BFS + file \(plus court chemin\)) Tj ET
+BT 0.4 0.4 0.4 rg /F1 8 Tf 105 504 Td (graphe.cpp : prochain_pas, file écrite à la main, sans lib) Tj ET
+0.18 0.49 0.2 rg 45 488 52 11 re f
+BT 1 1 1 rg /F2 7 Tf 49 491 Td (FAIT) Tj ET
+BT 0 0 0 rg /F1 9.5 Tf 105 490 Td (Replanification à chaque pas) Tj ET
+BT 0.4 0.4 0.4 rg /F1 8 Tf 105 479 Td (un pas puis recalcul ; PAS_DE_CHEMIN si inaccessible) Tj ET
+BT 0.15 0.2 0.22 rg /F2 10 Tf 45 465 Td (Décision) Tj ET
+0.75 G 0.5 w 45 461 m 550 461 l S
+0.18 0.49 0.2 rg 45 446 52 11 re f
+BT 1 1 1 rg /F2 7 Tf 49 449 Td (FAIT) Tj ET
+BT 0 0 0 rg /F1 9.5 Tf 105 448 Td (Lecture du dictionnaire \(6.1\)) Tj ET
+BT 0.4 0.4 0.4 rg /F1 8 Tf 105 437 Td (dictionnaire.cpp : premier mot reconnu, sinon indéterminée) Tj ET
+0.18 0.49 0.2 rg 45 421 52 11 re f
+BT 1 1 1 rg /F2 7 Tf 49 424 Td (FAIT) Tj ET
+BT 0 0 0 rg /F1 9.5 Tf 105 423 Td (Choix du casier \(6.2\) : 15 candidats triés) Tj ET
+BT 0.4 0.4 0.4 rg /F1 8 Tf 105 412 Td (choix_casier.cpp : casiers_a_essayer, prochain_casier, étiquettes de) Tj ET
+BT 0.4 0.4 0.4 rg /F1 8 Tf 105 402 Td (repli) Tj ET
+0.18 0.49 0.2 rg 45 386 52 11 re f
+BT 1 1 1 rg /F2 7 Tf 49 389 Td (FAIT) Tj ET
+BT 0 0 0 rg /F1 9.5 Tf 105 388 Td (Itinéraire du sélecteur \(annexe C\)) Tj ET
+BT 0.4 0.4 0.4 rg /F1 8 Tf 105 377 Td (pas_du_selecteur : vertical d'abord + bouclage des colonnes \(C.3,) Tj ET
+BT 0.4 0.4 0.4 rg /F1 8 Tf 105 367 Td (accepté par C.4\)) Tj ET
+0.62 0.62 0.62 rg 45 351 52 11 re f
+BT 1 1 1 rg /F2 7 Tf 49 354 Td (A FAIRE) Tj ET
+BT 0 0 0 rg /F1 9.5 Tf 105 353 Td (Enchaînement des 4 étapes par demande) Tj ET
+BT 0.4 0.4 0.4 rg /F1 8 Tf 105 342 Td (agent.cpp : classe Agent de interface.hpp \(decider, appliquer, bilan\)) Tj ET
+0.62 0.62 0.62 rg 45 326 52 11 re f
+BT 1 1 1 rg /F2 7 Tf 49 329 Td (A FAIRE) Tj ET
+BT 0 0 0 rg /F1 9.5 Tf 105 328 Td (Gestion des échecs \(6.3\)) Tj ET
+BT 0.4 0.4 0.4 rg /F1 8 Tf 105 317 Td (résident inaccessible, armoire vide, émotion indéterminée) Tj ET
+BT 0.15 0.2 0.22 rg /F2 10 Tf 45 303 Td (Tests) Tj ET
+0.75 G 0.5 w 45 299 m 550 299 l S
+0.18 0.49 0.2 rg 45 284 52 11 re f
+BT 1 1 1 rg /F2 7 Tf 49 287 Td (FAIT) Tj ET
+BT 0 0 0 rg /F1 9.5 Tf 105 286 Td (Test 1 : planification petite grille) Tj ET
+BT 0.4 0.4 0.4 rg /F1 8 Tf 105 275 Td (tests.cpp : mini-grille B.3, chemin SSEENE, puis X si bouché) Tj ET
+0.18 0.49 0.2 rg 45 259 52 11 re f
+BT 1 1 1 rg /F2 7 Tf 49 262 Td (FAIT) Tj ET
+BT 0 0 0 rg /F1 9.5 Tf 105 261 Td (Test 2 : replanification \(mur découvert\)) Tj ET
+BT 0.4 0.4 0.4 rg /F1 8 Tf 105 250 Td (tests.cpp : murs vus en \(1,2\), nouveau chemin OSSEENE) Tj ET
+0.18 0.49 0.2 rg 45 234 52 11 re f
+BT 1 1 1 rg /F2 7 Tf 49 237 Td (FAIT) Tj ET
+BT 0 0 0 rg /F1 9.5 Tf 105 236 Td (Test 3 : lecture du dictionnaire) Tj ET
+BT 0.4 0.4 0.4 rg /F1 8 Tf 105 225 Td (tests.cpp : 8 émotions + 2 mots connus + aucun mot) Tj ET
+0.18 0.49 0.2 rg 45 209 52 11 re f
+BT 1 1 1 rg /F2 7 Tf 49 212 Td (FAIT) Tj ET
+BT 0 0 0 rg /F1 9.5 Tf 105 211 Td (Test 5 : règle de repli) Tj ET
+BT 0.4 0.4 0.4 rg /F1 8 Tf 105 200 Td (tests.cpp : exact, intensité, voisine, armoire vide, ordre respecté) Tj ET
+BT 0 0 0 rg /F2 15 Tf 45 172 Td (Eliott \(A\)) Tj ET
+BT 0.35 0.35 0.35 rg /F1 9 Tf 45 157 Td (Monde & validation - 89 % : 19 fait, 1 en cours, 2 à faire, 0 bloqué) Tj ET
+0.88 0.88 0.88 rg 45 143 505 7 re f
+0.18 0.49 0.2 rg 45 143 449.45 7 re f
+BT 0.15 0.2 0.22 rg /F2 10 Tf 45 125 Td (Roue) Tj ET
+0.75 G 0.5 w 45 121 m 550 121 l S
+0.18 0.49 0.2 rg 45 106 52 11 re f
+BT 1 1 1 rg /F2 7 Tf 49 109 Td (FAIT) Tj ET
+BT 0 0 0 rg /F1 9.5 Tf 105 108 Td (roue_avancer : bouclage dans [0, n-1]) Tj ET
+BT 0.4 0.4 0.4 rg /F1 8 Tf 105 97 Td (roue.cpp : pas négatifs gérés) Tj ET
+0.18 0.49 0.2 rg 45 81 52 11 re f
+BT 1 1 1 rg /F2 7 Tf 49 84 Td (FAIT) Tj ET
+BT 0 0 0 rg /F1 9.5 Tf 105 83 Td (roue_distance : plus court côté) Tj ET
+BT 0.4 0.4 0.4 rg /F1 8 Tf 105 72 Td (roue.cpp : résultat dans [0, n/2]) Tj ET
 endstream
 endobj
 6 0 obj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 5 0 R >>
 endobj
 7 0 obj
-<< /Length 6220 >>
+<< /Length 6408 >>
 stream
 BT 0.15 0.2 0.22 rg /F2 10 Tf 45 797 Td (Environnement) Tj ET
 0.75 G 0.5 w 45 793 m 550 793 l S
@@ -205,20 +206,22 @@ BT 0.4 0.4 0.4 rg /F1 8 Tf 105 258 Td (\(tests_casses/\)) Tj ET
 BT 1 1 1 rg /F2 7 Tf 49 245 Td (A FAIRE) Tj ET
 BT 0 0 0 rg /F1 9.5 Tf 105 244 Td (Test 7 : résident muré \(avec Axel\)) Tj ET
 BT 0 0 0 rg /F2 15 Tf 45 215 Td (Ensemble) Tj ET
-BT 0.35 0.35 0.35 rg /F1 9 Tf 45 200 Td (À la fin, à deux - 0 % : 0 fait, 0 en cours, 5 à faire, 0 bloqué) Tj ET
+BT 0.35 0.35 0.35 rg /F1 9 Tf 45 200 Td (À la fin, à deux - 10 % : 0 fait, 1 en cours, 4 à faire, 0 bloqué) Tj ET
 0.88 0.88 0.88 rg 45 186 505 7 re f
+0.18 0.49 0.2 rg 45 186 50.5 7 re f
 BT 0.15 0.2 0.22 rg /F2 10 Tf 45 168 Td (Intégration) Tj ET
 0.75 G 0.5 w 45 164 m 550 164 l S
-0.62 0.62 0.62 rg 45 149 52 11 re f
-BT 1 1 1 rg /F2 7 Tf 49 152 Td (A FAIRE) Tj ET
+0.94 0.56 0 rg 45 149 52 11 re f
+BT 1 1 1 rg /F2 7 Tf 49 152 Td (EN COURS) Tj ET
 BT 0 0 0 rg /F1 9.5 Tf 105 151 Td (main.cpp : boucle Environnement <-> Agent) Tj ET
-BT 0.4 0.4 0.4 rg /F1 8 Tf 105 140 Td (trace, livraisons, résumé) Tj ET
-BT 0.15 0.2 0.22 rg /F2 10 Tf 45 126 Td (Relecture) Tj ET
-0.75 G 0.5 w 45 122 m 550 122 l S
-0.62 0.62 0.62 rg 45 107 52 11 re f
-BT 1 1 1 rg /F2 7 Tf 49 110 Td (A FAIRE) Tj ET
-BT 0 0 0 rg /F1 9.5 Tf 105 109 Td (Relecture croisée) Tj ET
-BT 0.4 0.4 0.4 rg /F1 8 Tf 105 98 Td (Eliott : agent/graphe/carte_robot ; Axel : environnement/roue) Tj ET
+BT 0.4 0.4 0.4 rg /F1 8 Tf 105 140 Td (squelette posé \(main.cpp, cible make robot\) : Eliott = entrées +) Tj ET
+BT 0.4 0.4 0.4 rg /F1 8 Tf 105 130 Td (perception, Axel = actions + livraisons, ensemble = simuler_demande) Tj ET
+BT 0.15 0.2 0.22 rg /F2 10 Tf 45 116 Td (Relecture) Tj ET
+0.75 G 0.5 w 45 112 m 550 112 l S
+0.62 0.62 0.62 rg 45 97 52 11 re f
+BT 1 1 1 rg /F2 7 Tf 49 100 Td (A FAIRE) Tj ET
+BT 0 0 0 rg /F1 9.5 Tf 105 99 Td (Relecture croisée) Tj ET
+BT 0.4 0.4 0.4 rg /F1 8 Tf 105 88 Td (Eliott : agent/graphe/carte_robot ; Axel : environnement/roue) Tj ET
 endstream
 endobj
 8 0 obj
@@ -254,13 +257,13 @@ xref
 0000000128 00000 n 
 0000000225 00000 n 
 0000000327 00000 n 
-0000006298 00000 n 
-0000006434 00000 n 
-0000012706 00000 n 
-0000012842 00000 n 
-0000013670 00000 n 
+0000006345 00000 n 
+0000006481 00000 n 
+0000012941 00000 n 
+0000013077 00000 n 
+0000013905 00000 n 
 trailer
 << /Size 11 /Root 1 0 R >>
 startxref
-13807
+14042
 %%EOF

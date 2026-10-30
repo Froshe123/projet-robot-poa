@@ -51,7 +51,7 @@ ELIOTT = [
 ]
 
 ENSEMBLE = [
- ("Intégration", "main.cpp : boucle Environnement <-> Agent", TODO, "trace, livraisons, résumé"),
+ ("Intégration", "main.cpp : boucle Environnement <-> Agent", COURS, "squelette posé (main.cpp, cible make robot) : Eliott = entrées + perception, Axel = actions + livraisons, ensemble = simuler_demande"),
  ("Relecture", "Relecture croisée", TODO, "Eliott : agent/graphe/carte_robot ; Axel : environnement/roue"),
  ("Rendu", "Rapport 3 pages", TODO, "architecture, replanification, repli, 3 échecs"),
  ("Rendu", "Vidéo 1 min 30", TODO, "robot qui se cogne et replanifie"),
@@ -60,7 +60,7 @@ ENSEMBLE = [
 
 PROCHAINES = [
  ("Axel", "memoire.cpp, puis agent.cpp (decider, appliquer, bilan)."),
- ("Eliott", "main.cpp avec Axel (y brancher la validation), puis affichage texte, puis test 7."),
+ ("Eliott", "main.cpp : charger_entrees puis perception_pour_trace ; ensuite simuler_demande avec Axel."),
 ]
 
 # --------------------------------------------------------------------------
