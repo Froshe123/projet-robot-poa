@@ -43,7 +43,7 @@ ELIOTT = [
  ("Validation 5.6", "Résidents en double, autre carte, résident absent", FAIT, "valider_carte + valider_scenario"),
  ("Validation 5.6", "Casiers : hors armoire, doublon, étiquette, casier_depart", FAIT, "valider_armoire"),
  ("Validation 5.6", "Dictionnaire : émotion/intensité inconnue, mot en double", FAIT, "valider_dictionnaire"),
- ("Validation 5.6", "Erreur -> stderr, code non nul, aucune trace", COURS, "à brancher dans main.cpp (try/catch avant la simulation)"),
+ ("Validation 5.6", "Erreur -> stderr, code non nul, aucune trace", FAIT, "main.cpp : charger_entrees + try/catch, testé avec une armoire cassée"),
  ("Affichage", "Grille redessinée à chaque pas", TODO, "robot + murs découverts (débogage, vidéo)"),
  ("Tests", "Test 4 : sélecteur, bouclage colonne 7 <-> 0", FAIT, "tests.cpp : test_selecteur, 8 vérifications"),
  ("Tests", "Test 6 : un fichier cassé par catégorie de 5.6", FAIT, "tests.cpp : test_validation, 4 fichiers valides + 19 cassés (tests_casses/)"),
@@ -60,7 +60,7 @@ ENSEMBLE = [
 
 PROCHAINES = [
  ("Axel", "memoire.cpp, puis agent.cpp (decider, appliquer, bilan)."),
- ("Eliott", "main.cpp : charger_entrees puis perception_pour_trace ; ensuite simuler_demande avec Axel."),
+ ("Eliott", "simuler_demande avec Axel (il remplit nom_action, argument_action, position_resident, noter_livraison), puis affichage texte."),
 ]
 
 # --------------------------------------------------------------------------

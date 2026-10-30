@@ -12,18 +12,18 @@ endobj
 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
 endobj
 5 0 obj
-<< /Length 5966 >>
+<< /Length 6004 >>
 stream
 BT 0 0 0 rg /F2 19 Tf 45 797 Td (Robot de Réconfort - avancement du binôme) Tj ET
-BT 0.35 0.35 0.35 rg /F1 10 Tf 45 779 Td (Mis à jour le 30/10/2026 - projet global : 76 %) Tj ET
+BT 0.35 0.35 0.35 rg /F1 10 Tf 45 779 Td (Mis à jour le 30/10/2026 - projet global : 77 %) Tj ET
 0.88 0.88 0.88 rg 45 767 505 7 re f
-0.18 0.49 0.2 rg 45 767 383.8 7 re f
+0.18 0.49 0.2 rg 45 767 388.85 7 re f
 BT 0 0 0 rg /F2 11 Tf 45 745 Td (Prochaines étapes) Tj ET
 BT 0 0 0 rg /F2 9.5 Tf 45 731 Td (Axel :) Tj ET
 BT 0 0 0 rg /F1 9.5 Tf 90 731 Td (memoire.cpp, puis agent.cpp \(decider, appliquer, bilan\).) Tj ET
 BT 0 0 0 rg /F2 9.5 Tf 45 719 Td (Eliott :) Tj ET
-BT 0 0 0 rg /F1 9.5 Tf 90 719 Td (main.cpp : charger_entrees puis perception_pour_trace ; ensuite simuler_demande avec) Tj ET
-BT 0 0 0 rg /F1 9.5 Tf 90 707 Td (Axel.) Tj ET
+BT 0 0 0 rg /F1 9.5 Tf 90 719 Td (simuler_demande avec Axel \(il remplit nom_action, argument_action, position_resident,) Tj ET
+BT 0 0 0 rg /F1 9.5 Tf 90 707 Td (noter_livraison\), puis affichage texte.) Tj ET
 BT 0 0 0 rg /F2 15 Tf 45 681 Td (Axel \(B\)) Tj ET
 BT 0.35 0.35 0.35 rg /F1 9 Tf 45 666 Td (Agent & décision - 79 % : 10 fait, 2 en cours, 2 à faire, 0 bloqué) Tj ET
 0.88 0.88 0.88 rg 45 652 505 7 re f
@@ -96,9 +96,9 @@ BT 1 1 1 rg /F2 7 Tf 49 212 Td (FAIT) Tj ET
 BT 0 0 0 rg /F1 9.5 Tf 105 211 Td (Test 5 : règle de repli) Tj ET
 BT 0.4 0.4 0.4 rg /F1 8 Tf 105 200 Td (tests.cpp : exact, intensité, voisine, armoire vide, ordre respecté) Tj ET
 BT 0 0 0 rg /F2 15 Tf 45 172 Td (Eliott \(A\)) Tj ET
-BT 0.35 0.35 0.35 rg /F1 9 Tf 45 157 Td (Monde & validation - 89 % : 19 fait, 1 en cours, 2 à faire, 0 bloqué) Tj ET
+BT 0.35 0.35 0.35 rg /F1 9 Tf 45 157 Td (Monde & validation - 91 % : 20 fait, 0 en cours, 2 à faire, 0 bloqué) Tj ET
 0.88 0.88 0.88 rg 45 143 505 7 re f
-0.18 0.49 0.2 rg 45 143 449.45 7 re f
+0.18 0.49 0.2 rg 45 143 459.55 7 re f
 BT 0.15 0.2 0.22 rg /F2 10 Tf 45 125 Td (Roue) Tj ET
 0.75 G 0.5 w 45 121 m 550 121 l S
 0.18 0.49 0.2 rg 45 106 52 11 re f
@@ -115,7 +115,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 5 0 R >>
 endobj
 7 0 obj
-<< /Length 6408 >>
+<< /Length 6417 >>
 stream
 BT 0.15 0.2 0.22 rg /F2 10 Tf 45 797 Td (Environnement) Tj ET
 0.75 G 0.5 w 45 793 m 550 793 l S
@@ -181,10 +181,10 @@ BT 0.4 0.4 0.4 rg /F1 8 Tf 105 427 Td (valider_armoire) Tj ET
 BT 1 1 1 rg /F2 7 Tf 49 414 Td (FAIT) Tj ET
 BT 0 0 0 rg /F1 9.5 Tf 105 413 Td (Dictionnaire : émotion/intensité inconnue, mot en double) Tj ET
 BT 0.4 0.4 0.4 rg /F1 8 Tf 105 402 Td (valider_dictionnaire) Tj ET
-0.94 0.56 0 rg 45 386 52 11 re f
-BT 1 1 1 rg /F2 7 Tf 49 389 Td (EN COURS) Tj ET
+0.18 0.49 0.2 rg 45 386 52 11 re f
+BT 1 1 1 rg /F2 7 Tf 49 389 Td (FAIT) Tj ET
 BT 0 0 0 rg /F1 9.5 Tf 105 388 Td (Erreur -> stderr, code non nul, aucune trace) Tj ET
-BT 0.4 0.4 0.4 rg /F1 8 Tf 105 377 Td (à brancher dans main.cpp \(try/catch avant la simulation\)) Tj ET
+BT 0.4 0.4 0.4 rg /F1 8 Tf 105 377 Td (main.cpp : charger_entrees + try/catch, testé avec une armoire cassée) Tj ET
 BT 0.15 0.2 0.22 rg /F2 10 Tf 45 363 Td (Affichage) Tj ET
 0.75 G 0.5 w 45 359 m 550 359 l S
 0.62 0.62 0.62 rg 45 344 52 11 re f
@@ -257,13 +257,13 @@ xref
 0000000128 00000 n 
 0000000225 00000 n 
 0000000327 00000 n 
-0000006345 00000 n 
-0000006481 00000 n 
-0000012941 00000 n 
-0000013077 00000 n 
-0000013905 00000 n 
+0000006383 00000 n 
+0000006519 00000 n 
+0000012988 00000 n 
+0000013124 00000 n 
+0000013952 00000 n 
 trailer
 << /Size 11 /Root 1 0 R >>
 startxref
-14042
+14089
 %%EOF

@@ -27,21 +27,35 @@ struct Entrees {
  *   carte, scénario, dictionnaire (<dossier>/dictionnaire.json),
  *   armoire (<dossier>/<champ "armoire" du scénario>.json).
  * Lève ErreurFichier au premier problème (aucune trace ne doit être écrite). */
-static Entrees charger_entrees(const std::string &chemin_carte, const std::string &chemin_scenario,
-                               const std::string &dossier)
+static Entrees charger_entrees(const std::string &chemin_carte, const std::string &chemin_scenario, const std::string &dossier)
 {
-    /* À compléter */
-    (void)chemin_carte; (void)chemin_scenario; (void)dossier;
-    return Entrees{};
+    Entrees e;
+    //Json carte
+    e.carte = charger_carte(chemin_carte);
+    valider_carte(e.carte);
+    //Json scenario
+    e.scenario = charger_scenario(chemin_scenario);
+    valider_scenario(e.scenario,e.carte);
+    //Json dictionnaire
+    e.dictionnaire = charger_dictionnaire(dossier + "/dictionnaire.json");
+    valider_dictionnaire(e.dictionnaire);
+    //Json armoire
+    e.armoire = charger_armoire(dossier + "/" + e.scenario.get_chaine("armoire") + ".json");
+    valider_armoire(e.armoire);
+    //tout les fichiers d'entrées
+    return e;
 }
 
 /* [Eliott] Convertit la perception de l'environnement (tableau N, S, E, O)
  * au format attendu par la trace (struct Perception de reconfort_io.hpp). */
 static Perception perception_pour_trace(const PerceptionRobot &p)
 {
-    /* À compléter */
-    (void)p;
-    return Perception{};
+    Perception t;
+    t.n = p.voisins[0];//Nord
+    t.s = p.voisins[1];//Sud
+    t.e = p.voisins[2];//Est
+    t.o = p.voisins[3];//Ouest
+    return t;
 }
 
 /* ===================== Axel : actions et livraisons ===================== */
