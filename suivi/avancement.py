@@ -44,14 +44,14 @@ ELIOTT = [
  ("Validation 5.6", "Casiers : hors armoire, doublon, étiquette, casier_depart", FAIT, "valider_armoire"),
  ("Validation 5.6", "Dictionnaire : émotion/intensité inconnue, mot en double", FAIT, "valider_dictionnaire"),
  ("Validation 5.6", "Erreur -> stderr, code non nul, aucune trace", FAIT, "main.cpp : charger_entrees + try/catch, testé avec une armoire cassée"),
- ("Affichage", "Grille redessinée à chaque pas", TODO, "robot + murs découverts (débogage, vidéo)"),
+ ("Affichage", "Grille redessinée à chaque pas", FAIT, "Environnement::afficher (cases vues + ?) ; AFFICHAGE=1 ; appel à mettre dans simuler_demande"),
  ("Tests", "Test 4 : sélecteur, bouclage colonne 7 <-> 0", FAIT, "tests.cpp : test_selecteur, 8 vérifications"),
  ("Tests", "Test 6 : un fichier cassé par catégorie de 5.6", FAIT, "tests.cpp : test_validation, 4 fichiers valides + 19 cassés (tests_casses/)"),
- ("Tests", "Test 7 : résident muré (avec Axel)", TODO, ""),
+ ("Tests", "Test 7 : résident muré (avec Axel)", FAIT, "tests_cartes/resident_mure.json : R2 muré -> échec, R1 -> réussite"),
 ]
 
 ENSEMBLE = [
- ("Intégration", "main.cpp : boucle Environnement <-> Agent", COURS, "squelette posé (main.cpp, cible make robot) : Eliott = entrées + perception, Axel = actions + livraisons, ensemble = simuler_demande"),
+ ("Intégration", "main.cpp : boucle Environnement <-> Agent", FAIT, "simuler_demande : les 5 scénarios fournis tournent, 29/29 livraisons réussies, 0 pas refusé"),
  ("Relecture", "Relecture croisée", TODO, "Eliott : agent/graphe/carte_robot ; Axel : environnement/roue"),
  ("Rendu", "Rapport 3 pages", TODO, "architecture, replanification, repli, 3 échecs"),
  ("Rendu", "Vidéo 1 min 30", TODO, "robot qui se cogne et replanifie"),
@@ -60,7 +60,7 @@ ENSEMBLE = [
 
 PROCHAINES = [
  ("Axel", "memoire.cpp, puis agent.cpp (decider, appliquer, bilan)."),
- ("Eliott", "simuler_demande avec Axel (il remplit nom_action, argument_action, position_resident, noter_livraison), puis affichage texte."),
+ ("Eliott", "vidéo (AFFICHAGE=1), rendu.json + README, relecture croisée, rapport."),
 ]
 
 # --------------------------------------------------------------------------

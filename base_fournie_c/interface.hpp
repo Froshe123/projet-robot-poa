@@ -83,6 +83,7 @@ public:
     PerceptionRobot percevoir() const;
     bool executer(const Action &action);        /* false si l'action est illégale */
     Pos robot() const;
+    void afficher() const;                      /* dessine la grille et le robot dans le terminal */
     Pos selecteur() const;
 
 private:

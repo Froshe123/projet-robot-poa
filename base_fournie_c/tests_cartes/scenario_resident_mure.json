@@ -1,0 +1,19 @@
+{
+  "format": "robot-reconfort/scenario",
+  "version": 1,
+  "nom": "scenario_resident_mure",
+  "carte": "resident_mure",
+  "armoire": "armoire_standard",
+  "demandes": [
+    {
+      "numero": 1,
+      "resident": "R2",
+      "message": "Je suis triste aujourd'hui."
+    },
+    {
+      "numero": 2,
+      "resident": "R1",
+      "message": "Je suis un peu inquiet."
+    }
+  ]
+}

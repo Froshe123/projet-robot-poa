@@ -2,6 +2,7 @@
 #include <memory>
 #include <optional>
 #include <cstdlib>
+#include <cstdio>
 
 struct Environnement::Etat {
     std::vector<std::string> grille; // grille[i][j] = case (i, j) de l'environnement
@@ -12,6 +13,7 @@ struct Environnement::Etat {
     Pos pos_dictionnaire; // position du dictionnaire dans la grille
     Pos depart_robot; // position de départ du robot (case vide)
     Pos casier_depart; // position de départ du selecteur (case vide)
+    std::vector<std::vector<bool>> vue;   // vue[l][c] = la case (l, c) a déjà été perçue par le robot
 
     std::vector<ResidentConnu> residents; // liste de résidents de la carte (id et position)
     std::vector<std::vector<std::optional<std::string>>> armoire; // armoire[i][j] = case (i, j) de l'armoire
@@ -84,6 +86,9 @@ Environnement::Environnement(const JsonValue &carte, const JsonValue &armoire)
 
         }
     }
+
+    etat->vue.assign(etat->grille.size(), std::vector<bool>(etat->grille[0].size(), false));
+    etat->vue[etat->depart_robot.l][etat->depart_robot.c] = true;
 }
 
     Pos Environnement::robot() const {
@@ -140,10 +145,11 @@ std::string nom_case (char signe){
 PerceptionRobot Environnement::percevoir() const{
     char direction;
     PerceptionRobot p;
-
+    etat->vue[ etat->pos_robot.l ][ etat->pos_robot.c ] = true;
     for (size_t i = 0; i <=3; i++){
         direction = DIRS[i]; //NSEO
         Pos case_voisine = voisin(etat->pos_robot,direction); // donne la case voisine dans la direction DIRS[i]
+        etat->vue[case_voisine.l][case_voisine.c] = true;
         char char_grille = etat->grille[case_voisine.l][case_voisine.c]; //donne le char dans cette case voisine
         p.voisins[i] = nom_case(char_grille); // renvoie le type de la case voisine
         if (p.voisins[i].compare("armoire") == 0){
@@ -261,6 +267,26 @@ bool Environnement::executer(const Action &action){
     default:
         return false;
     }
+
+}
+
+void Environnement::afficher() const{
+    for(size_t l = 0 ; l < etat->grille.size(); l++){
+        std::string ligne = etat->grille[l];
+        for(size_t c = 0; c < ligne.size();c++){
+            if (!etat->vue[l][c]){
+                ligne[c] = '?';
+            }
+        }
+        if (etat->pos_robot.l == (int)l){
+            ligne[etat->pos_robot.c] = '@';
+        }
+        std::printf("%s\n"  , ligne.c_str());
+    }
+    std::printf("robot (%d, %d)   selecteur (%d, %d)   objet : %s\n",
+            etat->pos_robot.l, etat->pos_robot.c,
+            etat->pos_selecteur.l, etat->pos_selecteur.c,
+            etat ->objet_porte ? etat->objet_porte->c_str() : "-");
 
 }
 

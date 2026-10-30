@@ -339,6 +339,65 @@ void test_validation(){
     verifier(est_refuse("dictionnaire", "tests_casses/dico_mot_en_double.json"), "mot dans deux entrees : refuse");
 }
 
+/* Déroule une demande avec l'environnement et l'agent (même boucle que
+   simuler_demande dans main.cpp, sans la trace), et renvoie le bilan. */
+Bilan derouler_demande(Environnement &env, Agent &agent, const Connaissances &k, const JsonValue &demande)
+{
+    std::string resident = demande.get_chaine("resident");
+    agent.nouvelle_demande((int)demande.get_nombre("numero"), resident, demande.get_chaine("message"));
+    for (const ResidentConnu &r : k.residents) {
+        if (r.id == resident) {
+            env.viser_resident(r.pos);
+        }
+    }
+    for (int pas = 0; pas < 500; pas++) {             /* garde-fou */
+        PerceptionRobot p = env.percevoir();
+        agent.percevoir(p);
+        Action a = agent.decider();
+        if (a.type == TypeAction::FIN) {
+            break;
+        }
+        if (!env.executer(a)) {
+            verifier(false, "action refusee par l'environnement");
+            break;
+        }
+        agent.appliquer(a);
+    }
+    return agent.bilan();
+}
+
+/* Test 7 : cas inaccessible (énoncé 6.3 et annexe B), sur une grille écrite à la main
+   (tests_cartes/resident_mure.json) : R2 est muré, R1 est accessible. */
+void test_resident_inaccessible()
+{
+    std::printf("Test 7 : resident inaccessible\n");
+    JsonValue carte, scenario, armoire, dico;
+    try {
+        carte = charger_carte("tests_cartes/resident_mure.json");
+        scenario = charger_scenario("tests_cartes/scenario_resident_mure.json");
+        armoire = charger_armoire("donnees/armoire_standard.json");
+        dico = charger_dictionnaire("donnees/dictionnaire.json");
+        valider_carte(carte);
+        valider_scenario(scenario, carte);
+    } catch (const ErreurFichier &e) {
+        verifier(false, std::string("chargement du test 7 : ") + e.what());
+        return;
+    }
+    verifier(true, "carte et scenario du test 7 valides");
+
+    Environnement env(carte, armoire);
+    Connaissances k = env.connaissances();
+    Agent agent(k, dico);
+    const JsonValue &demandes = *scenario.get("demandes");
+
+    Bilan b = derouler_demande(env, agent, k, *demandes.index(0));
+    verifier(!b.succes && b.motif_echec == "resident inaccessible",
+             "demande 1 (R2 mure) : echec 'resident inaccessible'");
+
+    b = derouler_demande(env, agent, k, *demandes.index(1));
+    verifier(b.succes, "demande 2 (R1 accessible) : le scenario continue et reussit");
+}
+
 /* Test mémoire : carte mentale et armoire (énoncé 3.2 et 7), sur appartement_01. */
 void test_memoire()
 {
@@ -394,6 +453,7 @@ int main()
     test_memoire();
     test_selecteur();
     test_validation();
+    test_resident_inaccessible();
 
     std::printf("\n%d tests, %d echec(s)\n", nb_tests, nb_echecs);
     return (nb_echecs == 0) ? 0 : 1;

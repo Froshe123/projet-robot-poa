@@ -7,11 +7,13 @@
  * Code de retour : 0 si tout va bien, 1 en cas d'erreur de données (5.6),
  * et dans ce cas AUCUNE trace n'est écrite. */
 #include <cstdio>
+#include <cstdlib>
 #include <optional>
 #include <string>
 #include "interface.hpp"
 #include "reconfort_io.hpp"
 #include "validation.hpp"
+#include <unistd.h>
 
 /* Les quatre fichiers d'entrée, chargés et validés. */
 struct Entrees {
@@ -56,6 +58,16 @@ static Perception perception_pour_trace(const PerceptionRobot &p)
     t.e = p.voisins[2];//Est
     t.o = p.voisins[3];//Ouest
     return t;
+}
+
+/* [Eliott] Redessine la grille dans le terminal (activé par AFFICHAGE=1),
+ * puis attend un peu pour qu'on ait le temps de voir le robot bouger. */
+static void afficher_tour(const Environnement &env)
+{
+    std::printf("\033[2J\033[H");   /* efface l'écran, curseur en haut à gauche */
+    env.afficher();
+    std::fflush(stdout);
+    usleep(150000);                 /* 0,15 s */
 }
 
 /* ===================== Axel : actions et livraisons ===================== */
@@ -141,12 +153,41 @@ static void noter_livraison(Trace &trace, int numero, const std::string &residen
  *        - trace.ajouter_pas(...)  (perception et contenu_casier RÉELS, de p)
  *        - si ok : agent.appliquer(a) ; sinon : action illégale (à décider)
  *        - garde-fou : un nombre maximal de pas, contre les boucles infinies
- *   3. noter_livraison(trace, ..., agent.bilan()) */
+ *   3. noter_livraison(trace, ..., agent.bilan())
+ * Si 'affichage' est vrai : afficher_tour(env) après chaque action. */
 static void simuler_demande(Environnement &env, Agent &agent, Trace &trace,
-                            const Connaissances &k, const JsonValue &demande)
+                            const Connaissances &k, const JsonValue &demande, bool affichage)
 {
-    /* À compléter */
-    (void)env; (void)agent; (void)trace; (void)k; (void)demande;
+    int numero = (int)demande.get_nombre("numero");
+    std::string resident = demande.get_chaine("resident");
+    agent.nouvelle_demande(numero, resident, demande.get_chaine("message"));
+    env.viser_resident(position_resident(k, resident));
+
+
+    for (int pas = 0; pas < 500; pas++) {             /* garde-fou */
+        Pos pos = env.robot();
+        Pos sel = env.selecteur();
+        PerceptionRobot p = env.percevoir();
+        agent.percevoir(p);
+        Action a = agent.decider();
+        if (a.type == TypeAction::FIN) {
+            break;
+        }
+        bool ok = env.executer(a);
+        trace.ajouter_pas(numero, pos.l, pos.c, sel.l, sel.c,
+                        nom_action(a.type), argument_action(a),
+                        perception_pour_trace(p), p.contenu_casier,
+                        ok ? std::nullopt : std::optional<std::string>("action refusee"));
+        if (!ok) {
+            break;
+        }
+
+        agent.appliquer(a);
+        if (affichage) {
+            afficher_tour(env);
+        }
+    }
+    noter_livraison(trace, numero, resident, agent.bilan());
 }
 
 /* ===================== main ===================== */
@@ -175,10 +216,11 @@ int main(int argc, char **argv)
     Trace trace(e.carte.get_chaine("nom"), e.scenario.get_chaine("nom"),
                 {"KRAMER Axel", "MELON Eliott"});
 
-    /* 4. les demandes, dans l'ordre */
+    /* 4. les demandes, dans l'ordre ; AFFICHAGE=1 ./robot ... pour voir le robot bouger */
+    bool affichage = std::getenv("AFFICHAGE") != nullptr;
     const JsonValue &demandes = *e.scenario.get("demandes");
     for (std::size_t i = 0; i < demandes.taille(); i++) {
-        simuler_demande(env, agent, trace, k, *demandes.index(i));
+        simuler_demande(env, agent, trace, k, *demandes.index(i), affichage);
     }
 
     /* 5. écrire la trace */

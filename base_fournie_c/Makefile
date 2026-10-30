@@ -22,7 +22,7 @@ test_graphe: types.o carte_robot.o graphe.o test_graphe.o
 clean:
 	rm -f robot demo test_graphe tests *.o
 
-tests: types.o carte_robot.o graphe.o dictionnaire.o roue.o choix_casier.o memoire.o reconfort_io.o json.o tests.o environnement.o validation.o
+tests: types.o carte_robot.o graphe.o dictionnaire.o roue.o choix_casier.o memoire.o reconfort_io.o json.o tests.o environnement.o validation.o agent.o
 	$(CXX) $(CXXFLAGS) -o $@ $^
 
 test: tests

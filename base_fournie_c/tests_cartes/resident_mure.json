@@ -1,0 +1,44 @@
+{
+  "format": "robot-reconfort/carte",
+  "version": 1,
+  "nom": "resident_mure",
+  "dimensions": {
+    "hauteur": 6,
+    "largeur": 7
+  },
+  "legende": {
+    "#": "mur",
+    ".": "libre",
+    "R": "depart du robot",
+    "A": "armoire",
+    "D": "dictionnaire",
+    "P": "resident"
+  },
+  "grille": [
+    "#######",
+    "#R.AP.#",
+    "#..D..#",
+    "#....##",
+    "#...#P#",
+    "#######"
+  ],
+  "depart_robot": [1, 1],
+  "armoire": {
+    "position": [1, 3]
+  },
+  "dictionnaire": {
+    "position": [2, 3]
+  },
+  "residents": [
+    {
+      "id": "R1",
+      "nom": "Lea",
+      "position": [1, 4]
+    },
+    {
+      "id": "R2",
+      "nom": "Paul",
+      "position": [4, 5]
+    }
+  ]
+}
