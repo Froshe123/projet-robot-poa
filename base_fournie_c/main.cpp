@@ -49,9 +49,15 @@ static Perception perception_pour_trace(const PerceptionRobot &p)
 /* [Axel] Le nom d'une action pour la trace : "AVANCER", "CONSULTER", ... */
 static std::string nom_action(TypeAction type)
 {
-    /* À compléter */
-    (void)type;
-    return "ATTENDRE";
+    switch (type) {
+    case TypeAction::AVANCER:   return "AVANCER";
+    case TypeAction::CONSULTER: return "CONSULTER";
+    case TypeAction::CHERCHER:  return "CHERCHER";
+    case TypeAction::PRENDRE:   return "PRENDRE";
+    case TypeAction::DONNER:    return "DONNER";
+    case TypeAction::FIN:       return "FIN";
+    default:                    return "ATTENDRE";
+    }
 }
 
 /* [Axel] L'argument d'une action pour la trace : la direction ("N", "S",
@@ -59,25 +65,54 @@ static std::string nom_action(TypeAction type)
  * std::nullopt sinon. */
 static std::optional<std::string> argument_action(const Action &a)
 {
-    /* À compléter */
-    (void)a;
+    if (a.type == TypeAction::AVANCER || a.type == TypeAction::CHERCHER) {
+        return std::string(1, a.direction);
+    }
+    if (a.type == TypeAction::PRENDRE || a.type == TypeAction::DONNER) {
+        return a.objet;
+    }
     return std::nullopt;
 }
 
 /* [Axel] La position du résident 'id', d'après les connaissances du robot. */
 static Pos position_resident(const Connaissances &k, const std::string &id)
 {
-    /* À compléter */
-    (void)k; (void)id;
+    for (const ResidentConnu &r : k.residents) {
+        if (r.id == id) {
+            return r.pos;
+        }
+    }
     return Pos{-1, -1};
+}
+
+/* [Axel] Une chaîne vide devient null dans la trace. */
+static std::optional<std::string> texte_ou_null(const std::string &s)
+{
+    if (s.empty()) {
+        return std::nullopt;
+    }
+    return s;
 }
 
 /* [Axel] Ajoute à la trace la livraison d'une demande, à partir du Bilan
  * de l'agent (Trace::ajouter_livraison, reconfort_io.hpp). */
 static void noter_livraison(Trace &trace, int numero, const std::string &resident, const Bilan &b)
 {
-    /* À compléter */
-    (void)trace; (void)numero; (void)resident; (void)b;
+    std::optional<int> ligne, colonne;
+    if (b.a_un_casier) {
+        ligne = b.casier_choisi.l;
+        colonne = b.casier_choisi.c;
+    }
+
+    std::string repli = b.repli.empty() ? "aucun" : b.repli;
+
+    std::optional<std::string> motif;
+    if (!b.succes) {
+        motif = b.motif_echec.empty() ? "blocage" : b.motif_echec;
+    }
+
+    trace.ajouter_livraison(numero, resident, texte_ou_null(b.emotion), texte_ou_null(b.intensite),
+                            ligne, colonne, repli, texte_ou_null(b.objet), b.succes, motif);
 }
 
 /* ===================== Ensemble : la boucle ===================== */
@@ -124,7 +159,7 @@ int main(int argc, char **argv)
     Connaissances k = env.connaissances();
     Agent agent(k, e.dictionnaire);
     Trace trace(e.carte.get_chaine("nom"), e.scenario.get_chaine("nom"),
-                {"NOM Prenom", "NOM Prenom"});   /* à remplir : vos deux noms */
+                {"KRAMER Axel", "MELON Eliott"});
 
     /* 4. les demandes, dans l'ordre */
     const JsonValue &demandes = *e.scenario.get("demandes");
