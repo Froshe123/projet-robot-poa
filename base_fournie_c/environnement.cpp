@@ -234,7 +234,7 @@ bool Environnement::executer(const Action &action){
         }
     }
     case TypeAction::PRENDRE :{
-        std::optional<std::string> &casier = etat->armoire[etat->pos_selecteur.l][etat->pos_selecteur.c]; // & : on modifie le vrai casier
+        const std::optional<std::string> &casier = etat->armoire[etat->pos_selecteur.l][etat->pos_selecteur.c]; // stock infini (projet 1) : PRENDRE ne vide pas le casier
         if (!adjacent(etat->pos_robot,etat->pos_armoire)){ // pas a cote de l'armoire
             return false;
         }
@@ -248,7 +248,6 @@ bool Environnement::executer(const Action &action){
             return false;
         }
         etat->objet_porte = action.objet;
-        casier = std::nullopt;
         return true;
 
     }

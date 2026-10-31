@@ -439,6 +439,59 @@ void test_memoire()
     verifier(!m.carte.case_valide(Pos{5, 7}), "la carte, elle, est gardee");
 }
 
+// test 7 bis : regles A et B, sur une grille ecrite a la main
+// R1 est enferme dans une piece sans porte, R2 est accessible
+void test_regles_a_b()
+{
+    std::printf("Test 7 bis : regles A et B (resident mure)\n");
+    JsonValue carte = JsonValue::parse(R"({
+        "format": "robot-reconfort/carte", "version": 1, "nom": "mini_mure",
+        "dimensions": { "hauteur": 5, "largeur": 10 },
+        "grille": ["##########",
+                   "#R.A.D#..#",
+                   "#.....#P.#",
+                   "#P....####",
+                   "##########"],
+        "depart_robot": [1, 1],
+        "armoire": { "position": [1, 3] },
+        "dictionnaire": { "position": [1, 5] },
+        "residents": [ { "id": "R1", "nom": "Mure", "position": [2, 7] },
+                       { "id": "R2", "nom": "Libre", "position": [3, 1] } ] })");
+    JsonValue demandes = JsonValue::parse(R"([
+        { "numero": 1, "resident": "R1", "message": "Je me sens tellement seule." },
+        { "numero": 2, "resident": "R2", "message": "Je suis vraiment heureux." },
+        { "numero": 3, "resident": "R1", "message": "Je me sens tellement seule." },
+        { "numero": 4, "resident": "R2", "message": "Je suis vraiment heureux." },
+        { "numero": 5, "resident": "R2", "message": "Bonjour, il fait beau." } ])");
+    JsonValue dico, armoire;
+    try {
+        dico = charger_dictionnaire("donnees/dictionnaire.json");
+        armoire = charger_armoire("donnees/armoire_standard.json");
+        valider_carte(carte);
+    } catch (const ErreurFichier &e) {
+        verifier(false, std::string("preparation du test 7 bis : ") + e.what());
+        return;
+    }
+
+    Environnement env(carte, armoire);
+    Connaissances k = env.connaissances();
+    Agent agent(k, dico);
+    Bilan b1 = derouler_demande(env, agent, k, *demandes.index(0));
+    Bilan b2 = derouler_demande(env, agent, k, *demandes.index(1));
+    Bilan b3 = derouler_demande(env, agent, k, *demandes.index(2));
+    Bilan b4 = derouler_demande(env, agent, k, *demandes.index(3));
+    Bilan b5 = derouler_demande(env, agent, k, *demandes.index(4));
+    verifier(!b1.succes && b1.motif_echec == "resident inaccessible",
+             "demande 1 : R1 mure -> echec \"resident inaccessible\"");
+    verifier(b2.succes && b2.objet == "couverture",
+             "demande 2 : il donne a R2 la couverture qu'il portait encore (regle B)");
+    verifier(!b3.succes && b3.motif_echec == "resident inaccessible" && !b3.a_un_casier,
+             "demande 3 : R1 deja connu comme mure -> echec sans rien prendre (regle A)");
+    verifier(b4.succes && b4.objet == "photo de famille", "demande 4 : R2 recoit la photo de famille");
+    verifier(!b5.succes && b5.motif_echec == "emotion indeterminee",
+             "demande 5 : aucun mot connu -> echec \"emotion indeterminee\"");
+}
+
 int main()
 {
     test_planification();
@@ -450,6 +503,7 @@ int main()
     test_selecteur();
     test_validation();
     test_resident_inaccessible();
+    test_regles_a_b();
 
     std::printf("\n%d tests, %d echec(s)\n", nb_tests, nb_echecs);
     return (nb_echecs == 0) ? 0 : 1;

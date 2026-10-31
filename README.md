@@ -24,7 +24,7 @@ Avec `AFFICHAGE=1` devant la commande, on voit le robot bouger dans le terminal.
 make -C base_fournie_c test
 ```
 
-Ça lance les tests 1 à 7 de l'énoncé (plus un test de la mémoire), 79 vérifications au total.
+Ça lance les tests 1 à 7 de l'énoncé (plus un test de la mémoire et un test 7 bis pour les règles A et B), 84 vérifications au total.
 Les fichiers cassés du test 6 sont dans `tests_casses/`, la carte du test 7 dans `tests_cartes/`.
 
 ## Organisation du code
