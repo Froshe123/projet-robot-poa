@@ -4,56 +4,52 @@
 #include <cstdlib>
 #include <cstdio>
 
+// le monde reel : seul l'environnement lit la grille et les objets
 struct Environnement::Etat {
-    std::vector<std::string> grille; // grille[i][j] = case (i, j) de l'environnement
+    std::vector<std::string> grille; // grille[l][c] = symbole de la case (l, c)
 
     Pos pos_robot; // position du robot dans la grille
     Pos pos_selecteur; // position du selecteur dans l'armoire
     Pos pos_armoire; // position de l'armoire dans la grille
     Pos pos_dictionnaire; // position du dictionnaire dans la grille
-    Pos depart_robot; // position de départ du robot (case vide)
-    Pos casier_depart; // position de départ du selecteur (case vide)
-    std::vector<std::vector<bool>> vue;   // vue[l][c] = la case (l, c) a déjà été perçue par le robot
+    Pos depart_robot; // ne bouge pas, sert a connaissances()
+    Pos casier_depart; // ne bouge pas, sert a connaissances()
+    std::vector<std::vector<bool>> vue; // vue[l][c] = case deja montree au robot (pour l'affichage)
 
-    std::vector<ResidentConnu> residents; // liste de résidents de la carte (id et position)
-    std::vector<std::vector<std::optional<std::string>>> armoire; // armoire[i][j] = case (i, j) de l'armoire
-    std::optional<std::string> objet_porte;// objet actuellement tenu par le robot (vide si aucun)
-    std::optional<Pos> resident_vise; // position du résident actuellement visé par le robot (vide si aucun)
-
-
-
+    std::vector<ResidentConnu> residents; // id et position de chaque resident
+    std::vector<std::vector<std::optional<std::string>>> armoire; // armoire[l][c] = objet du casier, vide si rien
+    std::optional<std::string> objet_porte; // objet tenu par le robot, vide si aucun
+    std::optional<Pos> resident_vise; // resident de la demande en cours
 };
 
 Environnement::~Environnement() = default;
 
+// construit le monde a partir de la carte et de l'armoire (deja validees)
 Environnement::Environnement(const JsonValue &carte, const JsonValue &armoire)
 {   
-    // Initialiser l'état de l'environnement
     etat = std::make_unique<Etat>();
 
-    // Lire la grille depuis le JSON
+    // grille
     const JsonValue &grille_json = *carte.get("grille");
-
-    // Lire la grille depuis le JSON et la stocker dans l'état
     for (size_t i = 0; i < grille_json.taille(); i++)
     {
         const JsonValue &ligne = *grille_json.index(i);
         etat->grille.push_back(*ligne.chaine());
     }
 
-    // Initialiser les positions courantes de départ du robot et du selecteur depuis le JSON
+    // positions de depart
     carte.get("depart_robot")->paire_entiers(etat->depart_robot.l, etat->depart_robot.c);
     armoire.get("casier_depart")->paire_entiers(etat->casier_depart.l, etat->casier_depart.c);
     
-    // Initialiser les positions courantes de l'armoire et du dictionnaire depuis le JSON
+    // positions fixes
     carte.get("armoire")->get("position")->paire_entiers(etat->pos_armoire.l, etat->pos_armoire.c);
     carte.get("dictionnaire")->get("position")->paire_entiers(etat->pos_dictionnaire.l, etat->pos_dictionnaire.c);
 
-    // Initialiser les positions courantes du robot et du selecteur au départ
+    // au debut le robot et le selecteur sont sur leur case de depart
     etat->pos_robot = etat->depart_robot;
     etat->pos_selecteur = etat->casier_depart;
     
-    // Lire les résidents depuis le JSON et les stocker dans l'état
+    // residents
     const JsonValue &residents_json = *carte.get("residents");
     for (size_t i = 0; i < residents_json.taille(); i++)
     {
@@ -65,14 +61,14 @@ Environnement::Environnement(const JsonValue &carte, const JsonValue &armoire)
         
     }
 
-    // Lire l'armoire depuis le JSON et la stocker dans l'état
-    size_t n_ligne = armoire.get("intensites")->taille(); // nombre de lignes de l'armoire
-    size_t n_colonne = armoire.get("emotions")->taille(); // nombre de colonnes de l'armoire
+    // armoire vide de la bonne taille : une ligne par intensite, une colonne par emotion
+    size_t n_ligne = armoire.get("intensites")->taille();
+    size_t n_colonne = armoire.get("emotions")->taille();
 
-    std::vector<std::optional<std::string>> ligne_armoire(n_colonne); // initialiser une ligne vide
-    etat->armoire.assign(n_ligne, ligne_armoire); // initialiser l'armoire avec des lignes vides
+    std::vector<std::optional<std::string>> ligne_armoire(n_colonne);
+    etat->armoire.assign(n_ligne, ligne_armoire);
     
-    // Remplir l'armoire avec les objets depuis le JSON
+    // on range chaque objet a sa place, les casiers null restent vides
     const JsonValue &casiers_json = *armoire.get("casiers");
     for (size_t i = 0; i < casiers_json.taille(); i++)
     {
@@ -82,28 +78,33 @@ Environnement::Environnement(const JsonValue &carte, const JsonValue &armoire)
         const JsonValue &objet = *casier.get("objet");
         if (objet.est_chaine())
         {
-            etat->armoire[l][c] = *objet.chaine(); // case avec un objet
+            etat->armoire[l][c] = *objet.chaine();
 
         }
     }
 
+    // au debut le robot n'a vu que sa case de depart
     etat->vue.assign(etat->grille.size(), std::vector<bool>(etat->grille[0].size(), false));
     etat->vue[etat->depart_robot.l][etat->depart_robot.c] = true;
 }
 
+// position actuelle du robot
     Pos Environnement::robot() const {
         return etat->pos_robot;
     }
 
+// position actuelle du selecteur dans l'armoire
     Pos Environnement::selecteur() const {
         return etat->pos_selecteur;
     }
 
+// retient le resident a qui DONNER est autorise pour cette demande
     void Environnement::viser_resident(Pos resident) {
         etat->resident_vise = resident;
     }
 
 
+// ce que le robot a le droit de savoir au depart : jamais la grille ni les objets
 Connaissances Environnement::connaissances() const{
         Connaissances k;
         k.hauteur = etat->grille.size();
@@ -116,6 +117,7 @@ Connaissances Environnement::connaissances() const{
         return k;
 }
 
+// traduit un symbole de la grille en mot de perception
 std::string nom_case (char signe){
     switch (signe)
     {
@@ -135,23 +137,25 @@ std::string nom_case (char signe){
         return "resident";
         
     case 'R' : 
-        return "libre";//la case de départ est une case libre
+        return "libre"; // la case de depart est une case libre
 
     default:
-        return "mur";// on evite les cases inconnues
+        return "mur"; // on evite les cases inconnues
     }
 }
 
+// ce que voit le robot : ses 4 voisins (N, S, E, O), et le casier courant
+// s'il touche l'armoire
 PerceptionRobot Environnement::percevoir() const{
     char direction;
     PerceptionRobot p;
-    etat->vue[ etat->pos_robot.l ][ etat->pos_robot.c ] = true;
+    etat->vue[ etat->pos_robot.l ][ etat->pos_robot.c ] = true; // pour l'affichage
     for (size_t i = 0; i <=3; i++){
-        direction = DIRS[i]; //NSEO
-        Pos case_voisine = voisin(etat->pos_robot,direction); // donne la case voisine dans la direction DIRS[i]
+        direction = DIRS[i]; // NSEO
+        Pos case_voisine = voisin(etat->pos_robot,direction);
         etat->vue[case_voisine.l][case_voisine.c] = true;
-        char char_grille = etat->grille[case_voisine.l][case_voisine.c]; //donne le char dans cette case voisine
-        p.voisins[i] = nom_case(char_grille); // renvoie le type de la case voisine
+        char char_grille = etat->grille[case_voisine.l][case_voisine.c];
+        p.voisins[i] = nom_case(char_grille);
         if (p.voisins[i].compare("armoire") == 0){
             p.devant_armoire = true;
         }
@@ -163,11 +167,14 @@ PerceptionRobot Environnement::percevoir() const{
     return p;
 } 
 
+// a et b sont voisins (pas de diagonale)
 bool adjacent(Pos a, Pos b){
     int somme_ecart = abs(a.l - b.l) + abs(a.c - b.c);
     return somme_ecart == 1;
 }
 
+// applique l'action si elle est legale (enonce 3.4 et annexe C.2),
+// renvoie false sinon et le monde ne bouge pas
 bool Environnement::executer(const Action &action){
     switch (action.type)
     {
@@ -197,7 +204,7 @@ bool Environnement::executer(const Action &action){
         else{
             switch (action.direction)
             {
-            case 'N':
+            case 'N': // les lignes ne bouclent pas
                 if (etat->pos_selecteur.l == 0){
                     return false;
                 }
@@ -213,7 +220,7 @@ bool Environnement::executer(const Action &action){
                     etat->pos_selecteur.l += 1;
                     return true;
                 }
-            case 'E':
+            case 'E': // les colonnes bouclent (7 -> 0)
                 etat->pos_selecteur.c = roue_avancer(etat->pos_selecteur.c, 1,(int)etat->armoire[0].size());
                 return true;
                 
@@ -227,17 +234,17 @@ bool Environnement::executer(const Action &action){
         }
     }
     case TypeAction::PRENDRE :{
-        std::optional<std::string> &casier = etat->armoire[etat->pos_selecteur.l][etat->pos_selecteur.c];
-        if (!adjacent(etat->pos_robot,etat->pos_armoire)){//pas a coté de l'armoire
+        std::optional<std::string> &casier = etat->armoire[etat->pos_selecteur.l][etat->pos_selecteur.c]; // & : on modifie le vrai casier
+        if (!adjacent(etat->pos_robot,etat->pos_armoire)){ // pas a cote de l'armoire
             return false;
         }
-        else if(!casier){// casier vide
+        else if(!casier){ // casier vide
             return false;
         }
-        else if(etat->objet_porte != std::nullopt){//le robot a deja un objet
+        else if(etat->objet_porte != std::nullopt){ // le robot a deja un objet
             return false;
         }
-        else if(casier != action.objet){
+        else if(casier != action.objet){ // pas le bon objet
             return false;
         }
         etat->objet_porte = action.objet;
@@ -247,16 +254,16 @@ bool Environnement::executer(const Action &action){
     }
 
     case TypeAction::DONNER :{
-        if(!etat->resident_vise){//il n'y a pas de resident vise
+        if(!etat->resident_vise){ // aucun resident vise
             return false;
         }
-        if(!adjacent(etat->pos_robot,*etat->resident_vise)){//le resident vise n'est pas a coté
+        if(!adjacent(etat->pos_robot,*etat->resident_vise)){ // pas a cote du resident
             return false;
         }
-        else if(etat->objet_porte == std::nullopt){//le robot n'a pas d'objet
+        else if(etat->objet_porte == std::nullopt){ // le robot n'a pas d'objet
             return false;
         }
-        else if(etat->objet_porte != action.objet){
+        else if(etat->objet_porte != action.objet){ // pas le bon objet
             return false;
         }
 
@@ -270,9 +277,10 @@ bool Environnement::executer(const Action &action){
 
 }
 
+// dessine la grille dans le terminal : '@' = robot, '?' = case jamais vue
 void Environnement::afficher() const{
     for(size_t l = 0 ; l < etat->grille.size(); l++){
-        std::string ligne = etat->grille[l];
+        std::string ligne = etat->grille[l]; // copie, on ne touche pas a la vraie grille
         for(size_t c = 0; c < ligne.size();c++){
             if (!etat->vue[l][c]){
                 ligne[c] = '?';

@@ -4,10 +4,10 @@
 #include "dictionnaire.hpp"
 #include "choix_casier.hpp"
 
-/* Les 3 étapes d'une demande (énoncé, section 4), puis FINIE. */
+// les 3 etapes d'une demande (enonce 4), puis FINIE
 enum class Phase { DICTIONNAIRE, ARMOIRE, RESIDENT, FINIE };
 
-/* Fabrique une action, par exemple action(TypeAction::AVANCER, 'E'). */
+// fabrique une action, ex action(TypeAction::AVANCER, 'E')
 static Action action(TypeAction type, char direction = 0, const std::string &objet = "")
 {
     Action a;
@@ -17,7 +17,7 @@ static Action action(TypeAction type, char direction = 0, const std::string &obj
     return a;
 }
 
-/* Tout ce que l'agent retient (caché ici, dans agent.cpp). */
+// tout ce que l'agent retient
 struct Agent::Etat {
     Connaissances k;
     const JsonValue &dictionnaire;
@@ -49,7 +49,7 @@ struct Agent::Etat {
     void apres_prendre(const std::string &objet);
 };
 
-/* Vrai si le carnet montre encore un chemin vers le résident (BFS, annexe B). */
+// la carte mentale montre encore un chemin vers le resident ?
 bool Agent::Etat::resident_atteignable() const
 {
     if (pos_resident.l < 0) {
@@ -61,8 +61,8 @@ bool Agent::Etat::resident_atteignable() const
     return prochain_pas(memoire.carte, memoire.robot, pos_resident) != PAS_DE_CHEMIN;
 }
 
-/* Un pas du BFS vers une case à côté de l'objet (annexe B).
-   S'il n'existe aucun chemin, c'est la preuve qu'on ne peut pas y aller (B.6). */
+// un pas vers l'objet ; si le BFS ne trouve aucun chemin, c'est la preuve
+// qu'on ne peut pas y aller et la demande echoue avec ce motif
 Action Agent::Etat::aller_vers(Pos objet, const std::string &motif)
 {
     char d = prochain_pas(memoire.carte, memoire.robot, objet);
@@ -72,7 +72,7 @@ Action Agent::Etat::aller_vers(Pos objet, const std::string &motif)
     return action(TypeAction::AVANCER, d);
 }
 
-/* La demande échoue (énoncé 6.3) : on note le motif et on passe à la suivante. */
+// la demande echoue : on note le motif et on passe a la suivante
 Action Agent::Etat::echouer(const std::string &motif)
 {
     resultat.succes = false;
@@ -81,7 +81,7 @@ Action Agent::Etat::echouer(const std::string &motif)
     return action(TypeAction::FIN);
 }
 
-/* Étape 1 : rejoindre le dictionnaire, puis CONSULTER. */
+// etape 1 : aller au dictionnaire puis CONSULTER
 Action Agent::Etat::etape_dictionnaire()
 {
     if (est_a_cote(memoire.robot, k.dictionnaire)) {
@@ -90,8 +90,8 @@ Action Agent::Etat::etape_dictionnaire()
     return aller_vers(k.dictionnaire, "emotion indeterminee");
 }
 
-/* Étape 2 : rejoindre l'armoire, chercher dans l'ordre de 6.2, puis PRENDRE.
-   Si le carnet prouve déjà que le résident est inaccessible, on ne prend rien (règle A). */
+// etape 2 : aller a l'armoire, chercher dans l'ordre de 6.2 puis PRENDRE
+// si on sait deja que le resident est inaccessible, on ne prend rien (regle A)
 Action Agent::Etat::etape_armoire()
 {
     if (!resident_atteignable()) {
@@ -112,7 +112,7 @@ Action Agent::Etat::etape_armoire()
     return action(TypeAction::PRENDRE, 0, memoire.contenu[cible.l][cible.c]);
 }
 
-/* Étape 3 : rejoindre le résident, puis DONNER. */
+// etape 3 : aller au resident puis DONNER
 Action Agent::Etat::etape_resident()
 {
     if (pos_resident.l < 0) {
@@ -124,7 +124,7 @@ Action Agent::Etat::etape_resident()
     return aller_vers(pos_resident, "resident inaccessible");
 }
 
-/* Le sélecteur bouge d'un casier : les lignes ne bouclent pas, les colonnes si (annexe C.2). */
+// le selecteur bouge d'un casier (les colonnes bouclent)
 void Agent::Etat::bouger_selecteur(char direction)
 {
     if (direction == 'N') memoire.selecteur.l--;
@@ -133,8 +133,8 @@ void Agent::Etat::bouger_selecteur(char direction)
     if (direction == 'O') memoire.selecteur.c = roue_avancer(memoire.selecteur.c, -1, 8);
 }
 
-/* Après CONSULTER : le robot connaît l'émotion (6.1) et les 15 casiers à essayer (6.2).
-   S'il porte encore l'objet d'une livraison ratée, il va le donner directement (règle B). */
+// apres CONSULTER : on connait l'emotion et les 15 casiers a essayer
+// si on porte encore l'objet d'une livraison ratee, on va le donner directement (regle B)
 void Agent::Etat::apres_consulter()
 {
     Emotion e = lire_emotion(dictionnaire, message);
@@ -154,7 +154,7 @@ void Agent::Etat::apres_consulter()
     phase = Phase::ARMOIRE;
 }
 
-/* Après PRENDRE : le robot porte l'objet ; on retient le casier et le repli pour la trace (5.5). */
+// apres PRENDRE : on retient l'objet, le casier et le repli pour la trace
 void Agent::Etat::apres_prendre(const std::string &objet)
 {
     objet_en_main = objet;
@@ -165,13 +165,12 @@ void Agent::Etat::apres_prendre(const std::string &objet)
     phase = Phase::RESIDENT;
 }
 
-/* Création de l'agent, au début de la simulation. */
 Agent::Agent(const Connaissances &k, const JsonValue &dictionnaire)
     : etat(std::make_unique<Etat>(k, dictionnaire)) {}
 
 Agent::~Agent() = default;
 
-/* Une nouvelle demande arrive (énoncé, section 4). */
+// une nouvelle demande arrive
 void Agent::nouvelle_demande(int numero, const std::string &resident, const std::string &message)
 {
     etat->numero = numero;
@@ -192,13 +191,13 @@ void Agent::nouvelle_demande(int numero, const std::string &resident, const std:
     etat->resultat = Bilan();
 }
 
-/* PERCEPTION -> MÉMOIRE, à chaque tour. */
+// perception -> memoire, a chaque tour
 void Agent::percevoir(const PerceptionRobot &p)
 {
     etat->memoire.noter_perception(p);
 }
 
-/* DÉCISION : l'action de ce tour, selon l'étape de la demande. FIN = demande terminée. */
+// l'action de ce tour selon l'etape de la demande (FIN = demande terminee)
 Action Agent::decider()
 {
     switch (etat->phase) {
@@ -213,7 +212,7 @@ Action Agent::decider()
     }
 }
 
-/* Après une action acceptée par l'environnement : on met le carnet à jour. */
+// apres une action acceptee par l'environnement : on met la memoire a jour
 void Agent::appliquer(const Action &a)
 {
     switch (a.type) {
@@ -239,7 +238,7 @@ void Agent::appliquer(const Action &a)
     }
 }
 
-/* Le résultat de la demande, pour la trace (énoncé 5.5). */
+// le resultat de la demande, pour la trace
 Bilan Agent::bilan() const
 {
     return etat->resultat;

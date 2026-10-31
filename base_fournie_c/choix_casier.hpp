@@ -5,10 +5,10 @@
 #include <vector>
 #include "interface.hpp"
 
-/* Un casier que le robot peut essayer (énoncé 6.2) */
+// un casier que le robot peut essayer (enonce 6.2)
 struct CasierPossible {
-    Pos position;        /* [ligne, colonne] = [intensité, émotion] */
-    std::string repli;   /* "aucun", "intensite", "voisine_1" ou "voisine_2" */
+    Pos position; // (intensite, emotion)
+    std::string repli; // "aucun", "intensite", "voisine_1" ou "voisine_2"
 };
 
 int numero_emotion(const JsonValue &dictionnaire, const std::string &emotion);

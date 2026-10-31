@@ -1,8 +1,7 @@
 #include "dictionnaire.hpp"
 #include "reconfort_io.hpp"
 
-// Fonction pour chercher un mot dans le dictionnaire
-
+// l'entree du dictionnaire qui contient ce mot, nullptr s'il n'y en a pas
 const JsonValue *chercher_mot(const JsonValue &dictionnaire, const std::string &mot)
 {
     const JsonValue *entrees = dictionnaire.get("entrees");
@@ -25,6 +24,7 @@ const JsonValue *chercher_mot(const JsonValue &dictionnaire, const std::string &
     return nullptr;
 }
 
+// emotion du message : le premier mot connu en lisant de gauche a droite (enonce 6.1)
 Emotion lire_emotion(const JsonValue &dictionnaire, const std::string &message)
 {
     Emotion resultat;

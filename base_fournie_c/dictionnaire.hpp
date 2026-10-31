@@ -4,10 +4,11 @@
 #include <string>
 #include "json.hpp"
 
+// ce que le dictionnaire a trouve dans un message
 struct Emotion {
-    bool trouvee = false;   /* false = "emotion indeterminee" (énoncé 6.1) */
-    std::string emotion;    /* ex. "tristesse" */
-    std::string intensite;  /* ex. "moyenne" */
+    bool trouvee = false; // false = "emotion indeterminee"
+    std::string emotion; // ex "tristesse"
+    std::string intensite; // ex "moyenne"
 };
 
 const JsonValue *chercher_mot(const JsonValue &dictionnaire, const std::string &mot);

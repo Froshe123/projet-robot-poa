@@ -1,7 +1,7 @@
 #include "memoire.hpp"
 
-/* Au départ, le robot connaît le bord, l'armoire, le dictionnaire,
-   les résidents et sa case de départ (énoncé 3.2). Aucun mur. */
+// au depart le robot connait le bord, l'armoire, le dictionnaire, les residents
+// et sa case de depart (enonce 3.2), mais aucun mur
 Memoire::Memoire(const Connaissances &k)
     : carte(k.hauteur, k.largeur), robot(k.depart), selecteur(k.casier_depart)
 {
@@ -14,10 +14,10 @@ Memoire::Memoire(const Connaissances &k)
     oublier_armoire();
 }
 
-/* À chaque tour, on écrit ce que le robot voit (énoncé 3.2 et 7). */
+// a chaque tour on note ce que le robot voit
 void Memoire::noter_perception(const PerceptionRobot &p)
 {
-    /* 1. les 4 cases voisines, dans l'ordre N, S, E, O */
+    // les 4 voisins, dans l'ordre N S E O
     for (int i = 0; i < 4; i++) {
         Pos v = voisin(robot, DIRS[i]);
         if (p.voisins[i] == "libre") {
@@ -27,14 +27,14 @@ void Memoire::noter_perception(const PerceptionRobot &p)
         }
     }
 
-    /* 2. le casier sous le sélecteur, si le robot est devant l'armoire */
+    // le casier sous le selecteur, si le robot est devant l'armoire
     if (p.devant_armoire) {
         vu[selecteur.l][selecteur.c] = true;
         contenu[selecteur.l][selecteur.c] = p.contenu_casier.value_or("");
     }
 }
 
-/* Nouvelle demande : on oublie ce qu'on a vu dans l'armoire. */
+// nouvelle demande : on oublie ce qu'on a vu dans l'armoire
 void Memoire::oublier_armoire()
 {
     for (int l = 0; l < 3; l++) {

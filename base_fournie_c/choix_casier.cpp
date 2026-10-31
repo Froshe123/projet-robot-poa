@@ -1,8 +1,7 @@
 #include <cstdlib>
 #include "choix_casier.hpp"
 
-/* Cherche un mot dans une liste du dictionnaire et renvoie sa place (0, 1, 2...),
-   ou -1 s'il n'y est pas. Sert aux deux fonctions juste en dessous. */
+// place du mot dans la liste 'liste' du dictionnaire (0, 1, 2...), -1 s'il n'y est pas
 static int place_dans_liste(const JsonValue &dictionnaire, const std::string &liste, const std::string &mot)
 {
     const JsonValue *tableau = dictionnaire.get(liste);
@@ -18,19 +17,19 @@ static int place_dans_liste(const JsonValue &dictionnaire, const std::string &li
     return -1;
 }
 
-/* "tristesse" -> 4 : l'ordre est celui du champ "emotions" du dictionnaire (énoncé 5.2). */
+// numero d'une emotion, ex "tristesse" -> 4
 int numero_emotion(const JsonValue &dictionnaire, const std::string &emotion)
 {
     return place_dans_liste(dictionnaire, "emotions", emotion);
 }
 
-/* "faible" -> 0, "moyenne" -> 1, "forte" -> 2 */
+// numero d'une intensite : faible -> 0, moyenne -> 1, forte -> 2
 int numero_intensite(const JsonValue &dictionnaire, const std::string &intensite)
 {
     return place_dans_liste(dictionnaire, "intensites", intensite);
 }
 
-/* L'étiquette "repli" écrite dans la trace (énoncé 6.2). */
+// l'etiquette "repli" ecrite dans la trace
 std::string etiquette_repli(int distance, bool meme_intensite)
 {
     if (distance == 0 && meme_intensite) return "aucun";
@@ -39,17 +38,16 @@ std::string etiquette_repli(int distance, bool meme_intensite)
     return "voisine_2";
 }
 
-/* Les 15 casiers à essayer, déjà dans l'ordre de l'énoncé 6.2.
-   emotion = numéro de 0 à 7, intensite = numéro de 0 à 2. */
+// les 15 casiers a essayer, deja dans l'ordre de l'enonce 6.2
 std::vector<CasierPossible> casiers_a_essayer(int emotion, int intensite)
 {
     std::vector<CasierPossible> liste;
-    for (int distance = 0; distance <= 2; distance++) {                  /* 1. distance croissante */
-        for (int ecart = 0; ecart <= 2; ecart++) {                       /* 2. écart d'intensité croissant */
-            for (int autre_intensite = 0; autre_intensite <= 2; autre_intensite++) {   /* 3. faible d'abord */
+    for (int distance = 0; distance <= 2; distance++) { // 1. distance croissante
+        for (int ecart = 0; ecart <= 2; ecart++) { // 2. ecart d'intensite croissant
+            for (int autre_intensite = 0; autre_intensite <= 2; autre_intensite++) { // 3. faible d'abord
                 if (std::abs(intensite - autre_intensite) != ecart) continue;
-                for (int sens : {+1, -1}) {                              /* 4. horaire puis antihoraire */
-                    if (distance == 0 && sens == -1) continue;           /* à distance 0, une seule émotion */
+                for (int sens : {+1, -1}) { // 4. horaire puis antihoraire
+                    if (distance == 0 && sens == -1) continue; // a distance 0 il n'y a qu'une emotion
                     CasierPossible casier;
                     casier.position = Pos{autre_intensite, roue_avancer(emotion, sens * distance, 8)};
                     casier.repli = etiquette_repli(distance, autre_intensite == intensite);
@@ -61,20 +59,19 @@ std::vector<CasierPossible> casiers_a_essayer(int emotion, int intensite)
     return liste;
 }
 
-/* Le prochain pas du sélecteur vers la cible : vertical d'abord (énoncé C.3).
-   À n'appeler que si le sélecteur n'est pas déjà sur la cible. */
+// prochain mouvement du selecteur vers la cible : vertical d'abord, puis le cote le plus court
+// (le selecteur ne doit pas deja etre sur la cible)
 char pas_du_selecteur(Pos selecteur, Pos cible)
 {
     if (cible.l > selecteur.l) return 'S';
     if (cible.l < selecteur.l) return 'N';
-    int crans_vers_est = roue_avancer(cible.c, -selecteur.c, 8);   /* (c' - c) mod 8 */
+    int crans_vers_est = roue_avancer(cible.c, -selecteur.c, 8); // (c' - c) mod 8
     if (crans_vers_est <= 8 - crans_vers_est) return 'E';
     return 'O';
 }
 
-/* Le casier à traiter maintenant (énoncé 6.2) : le premier de la liste
-   qui n'a pas encore été vu, ou qui a été vu garni.
-   Renvoie son rang dans la liste (0 à 14), ou -1 si les 15 sont vus et vides. */
+// rang du casier a traiter : le premier pas encore vu ou vu garni,
+// -1 si les 15 sont vus et vides
 int prochain_casier(const std::vector<CasierPossible> &liste,
                     const bool vu[3][8], const std::string contenu[3][8])
 {

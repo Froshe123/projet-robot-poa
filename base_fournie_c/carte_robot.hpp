@@ -4,14 +4,16 @@
 #include <vector>
 #include "types.hpp"
 
+// ce que le robot croit d'une case
 enum class TypeCase { INCONNUE, LIBRE, OCCUPEE };
 
+// la carte mentale du robot, distincte de la vraie grille
 class CarteRobot {
 public:
-    CarteRobot(int hauteur, int largeur);           /* initialise la carte tout est inconnue */
-    void mettre_a_jour(Pos pos, TypeCase type);     /* met à jour la case de la carte */
-    bool est_dans_carte(Pos pos) const;             /* la case existe ? */
-    bool case_valide(Pos pos) const;                /* le robot peut passer ? (INCONNUE ou LIBRE) */
+    CarteRobot(int hauteur, int largeur);       // bords = murs, le reste inconnu
+    void mettre_a_jour(Pos pos, TypeCase type);
+    bool est_dans_carte(Pos pos) const;
+    bool case_valide(Pos pos) const;            // on peut y passer ? (inconnue = libre)
     int hauteur() const { return hauteur_; }
     int largeur() const { return largeur_; }
 

@@ -1,5 +1,4 @@
-/* Tests automatiques de la partie agent (énoncé, section 8).
-   Lancer avec : make test   (depuis base_fournie_c) */
+// tests automatiques (enonce 8), a lancer avec : make test
 #include <cstdio>
 #include <string>
 #include "graphe.hpp"
@@ -13,7 +12,7 @@
 static int nb_tests = 0;
 static int nb_echecs = 0;
 
-/* Vérifie une condition : affiche "ok" ou "ECHEC", et compte les échecs. */
+// verifie une condition : affiche "ok" ou "ECHEC", et compte les echecs
 void verifier(bool condition, const std::string &message)
 {
     nb_tests++;
@@ -25,9 +24,8 @@ void verifier(bool condition, const std::string &message)
     }
 }
 
-/* Fait avancer le robot pas à pas jusqu'à être à côté de l'objet,
-   sans rien découvrir en route. Renvoie les directions prises, par
-   exemple "SSEENE", avec un "X" à la fin si aucun chemin n'existe. */
+// fait marcher le robot jusqu'a cote de l'objet sur une carte fixe
+// renvoie les directions prises, ex "SSEENE", avec un "X" a la fin si pas de chemin
 std::string marcher(const CarteRobot &carte, Pos robot, Pos objet)
 {
     std::string chemin;
@@ -42,18 +40,16 @@ std::string marcher(const CarteRobot &carte, Pos robot, Pos objet)
     return chemin;
 }
 
-/* ------------------------------------------------------------------
-   La mini-grille de l'énoncé (annexe B.3), avec l'armoire A en (1,4) :
-       ######
-       #R.#A#
-       #.#..#
-       #...##
-       ######
-   ------------------------------------------------------------------ */
+// la mini-grille de l'annexe B.3, armoire A en (1,4) :
+//     ######
+//     #R.#A#
+//     #.#..#
+//     #...##
+//     ######
 const Pos ROBOT = {1, 1};
 const Pos ARMOIRE = {1, 4};
 
-/* Test 1 : planification sur une grille entièrement connue. */
+// test 1 : planification sur une grille entierement connue
 void test_planification()
 {
     std::printf("Test 1 : planification (grille connue)\n");
@@ -69,20 +65,20 @@ void test_planification()
     verifier(prochain_pas(carte, ROBOT, ARMOIRE) == 'S', "le 1er pas est S (pas E, qui mene a un cul-de-sac)");
     verifier(marcher(carte, ROBOT, ARMOIRE) == "SSEENE", "le chemin complet est S S E E N E (6 pas)");
 
-    carte.mettre_a_jour(Pos{3, 2}, TypeCase::OCCUPEE);   /* on bouche le seul passage */
+    carte.mettre_a_jour(Pos{3, 2}, TypeCase::OCCUPEE); // on bouche le seul passage
     verifier(prochain_pas(carte, ROBOT, ARMOIRE) == PAS_DE_CHEMIN, "passage bouche : aucun chemin (X)");
 }
 
-/* Test 2 : replanification, un mur découvert en route change le trajet. */
+// test 2 : replanification, un mur decouvert en route change le trajet
 void test_replanification()
 {
     std::printf("Test 2 : replanification (murs inconnus au depart)\n");
-    CarteRobot carte(5, 6);                               /* seul le bord est connu */
-    carte.mettre_a_jour(ARMOIRE, TypeCase::OCCUPEE);       /* et l'armoire */
+    CarteRobot carte(5, 6); // seul le bord est connu
+    carte.mettre_a_jour(ARMOIRE, TypeCase::OCCUPEE); // et l'armoire
 
     verifier(prochain_pas(carte, ROBOT, ARMOIRE) == 'E', "au depart, (1,3) est inconnue donc supposee libre : on part vers E");
 
-    /* Le robot avance en (1,2) et voit : E = mur (1,3), S = mur (2,2). */
+    // le robot avance en (1,2) et voit : E = mur (1,3), S = mur (2,2)
     Pos robot = {1, 2};
     carte.mettre_a_jour(Pos{1, 3}, TypeCase::OCCUPEE);
     carte.mettre_a_jour(Pos{2, 2}, TypeCase::OCCUPEE);
@@ -91,7 +87,7 @@ void test_replanification()
     verifier(marcher(carte, robot, ARMOIRE) == "OSSEENE", "le nouveau chemin passe par le bas (7 pas)");
 }
 
-/* Vérifie l'émotion et l'intensité lues dans un message. */
+// verifie l'emotion et l'intensite lues dans un message
 void verifier_emotion(const JsonValue &dico, const std::string &message,
                       const std::string &emotion, const std::string &intensite)
 {
@@ -100,7 +96,7 @@ void verifier_emotion(const JsonValue &dico, const std::string &message,
              emotion + " / " + intensite + " <- " + message);
 }
 
-/* Test 3 : lecture du dictionnaire (énoncé 6.1). */
+// test 3 : lecture du dictionnaire (enonce 6.1)
 void test_dictionnaire()
 {
     std::printf("Test 3 : lecture du dictionnaire\n");
@@ -112,7 +108,7 @@ void test_dictionnaire()
         return;
     }
 
-    /* un message par émotion */
+    // un message par emotion
     verifier_emotion(dico, "Ma fille a appelé, je suis vraiment heureux.", "joie", "moyenne");
     verifier_emotion(dico, "Je te fais confiance, tu sauras quoi faire.", "confiance", "moyenne");
     verifier_emotion(dico, "Je suis terrifiée, il y a quelqu'un dans l'entrée.", "peur", "forte");
@@ -122,26 +118,26 @@ void test_dictionnaire()
     verifier_emotion(dico, "Je suis furieux, on a encore oublié mon repas.", "colere", "forte");
     verifier_emotion(dico, "Je reste vigilante, quelqu'un rôde dehors.", "anticipation", "forte");
 
-    /* deux mots connus : le premier gagne ("sidere" avant "seule") */
+    // deux mots connus : le premier gagne ("sidere" avant "seule")
     verifier_emotion(dico, "Je suis sidéré, la télévision s'est allumée toute seule.", "surprise", "forte");
 
-    /* aucun mot connu */
+    // aucun mot connu
     Emotion e = lire_emotion(dico, "Bonjour, il fait beau aujourd'hui.");
     verifier(!e.trouvee, "aucun mot connu -> emotion indeterminee");
 }
 
-/* Vrai si p est le casier [l, c]. */
+// vrai si p est le casier [l, c]
 bool meme_casier(Pos p, int l, int c)
 {
     return p.l == l && p.c == c;
 }
 
-/* Les casiers à essayer (énoncé 6.2) et le sélecteur (annexe C.3). */
+// les casiers a essayer (enonce 6.2) et le selecteur (annexe C.3)
 void test_casiers_a_essayer()
 {
     std::printf("Casiers a essayer et selecteur\n");
 
-    /* les numéros viennent du dictionnaire (énoncé 5.2) */
+    // les numeros viennent du dictionnaire (enonce 5.2)
     try {
         JsonValue dico = charger_dictionnaire("donnees/dictionnaire.json");
         verifier(numero_emotion(dico, "tristesse") == 4, "tristesse est l'emotion numero 4");
@@ -151,7 +147,7 @@ void test_casiers_a_essayer()
         verifier(false, std::string("chargement du dictionnaire : ") + e.what());
     }
 
-    /* tristesse (4) / moyenne (1) : le tableau de l'énoncé, rang par rang */
+    // tristesse (4) / moyenne (1) : le tableau de l'enonce, rang par rang
     std::vector<CasierPossible> liste = casiers_a_essayer(4, 1);
     const int attendu[15][2] = { {1,4}, {0,4}, {2,4}, {1,5}, {1,3}, {0,5}, {0,3}, {2,5},
                                  {2,3}, {1,6}, {1,2}, {0,6}, {0,2}, {2,6}, {2,2} };
@@ -164,12 +160,12 @@ void test_casiers_a_essayer()
              && liste[3].repli == "voisine_1" && liste[9].repli == "voisine_2",
              "etiquettes : aucun, intensite, voisine_1, voisine_2");
 
-    /* joie (0) / faible (0) : la voisine antihoraire de joie est anticipation (7) */
+    // joie (0) / faible (0) : la voisine antihoraire de joie est anticipation (7)
     liste = casiers_a_essayer(0, 0);
     verifier(meme_casier(liste[3].position, 0, 1) && meme_casier(liste[4].position, 0, 7),
              "joie/faible : rang 4 = confiance [0,1], rang 5 = anticipation [0,7] (bouclage)");
 
-    /* le sélecteur : vertical d'abord, puis le côté le plus court */
+    // le selecteur : vertical d'abord, puis le cote le plus court
     verifier(pas_du_selecteur(Pos{1, 0}, Pos{1, 4}) == 'E', "[1,0] -> [1,4] : E (4 crans des deux cotes -> E)");
     verifier(pas_du_selecteur(Pos{2, 7}, Pos{0, 1}) == 'N', "[2,7] -> [0,1] : N d'abord");
     verifier(pas_du_selecteur(Pos{1, 0}, Pos{2, 6}) == 'S', "[1,0] -> [2,6] : S d'abord");
@@ -177,14 +173,14 @@ void test_casiers_a_essayer()
     verifier(pas_du_selecteur(Pos{0, 7}, Pos{0, 1}) == 'E', "[0,7] -> [0,1] : E (on passe par la colonne 0)");
 }
 
-/* L'armoire standard (donnees/armoire_standard.json) ; "" = casier vide. */
+// l'armoire standard (donnees/armoire_standard.json) ; "" = casier vide
 const char *ARMOIRE_STANDARD[3][8] = {
     { "tisane", "coussin", "veilleuse", "", "mouchoirs", "livre", "balle antistress", "magazine" },
     { "photo de famille", "plaid", "lampe torche", "", "couverture", "desodorisant", "casque audio", "calendrier" },
     { "guirlande lumineuse", "album souvenir", "bouton d appel", "", "telephone", "gants de menage", "tasse de camomille", "" },
 };
 
-/* Test 4 : */
+// test 4 : deplacement du selecteur, avec le bouclage des colonnes
 void test_selecteur() {
     std::printf("Test 4 : test de selecteur\n");
     JsonValue carte;
@@ -204,37 +200,37 @@ void test_selecteur() {
     env.executer(action);
     verifier(pos_egales(env.robot(), Pos{6, 3}), "le robot est devant l'armoire");
     action.type = TypeAction::CHERCHER;
-    //O
+    // O
     action.direction = 'O';
     bool ok = env.executer(action);
     verifier(ok && pos_egales(env.selecteur(), Pos{1,7}), "CHERCHER O depuis (1,0) : bouclage vers (1,7)");
-    //E
+    // E
     action.direction = 'E';
     ok = env.executer(action);
     verifier(ok && pos_egales(env.selecteur(), Pos{1,0}), "CHERCHER E depuis (1,7) : bouclage vers (1,0)");
-    //N
+    // N
     action.direction = 'N';
     ok = env.executer(action);
     verifier(ok && pos_egales(env.selecteur(), Pos{0,0}), "CHERCHER N depuis (1,0) : monte vers (0,0)");
-    //N
+    // N
     action.direction = 'N';
     ok = env.executer(action);
     verifier(!ok && pos_egales(env.selecteur(), Pos{0,0}), "CHERCHER N depuis (0,0) : refuse, les lignes ne bouclent pas");
-    //S
+    // S
     action.direction = 'S';
     ok = env.executer(action);
     verifier(ok && pos_egales(env.selecteur(), Pos{1,0}), "CHERCHER S depuis (0,0) : descend vers (1,0)");
-    //S
+    // S
     action.direction = 'S';
     ok = env.executer(action);
     verifier(ok && pos_egales(env.selecteur(), Pos{2,0}), "CHERCHER S depuis (1,0) : descend vers (2,0)");
-    //S
+    // S
     action.direction = 'S';
     ok = env.executer(action);
     verifier(!ok && pos_egales(env.selecteur(), Pos{2,0}), "CHERCHER S depuis (2,0) : refuse, derniere ligne");
 }
 
-/* Test 5 : la règle de repli (énoncé 6.2). Au début, le robot a vu toute l'armoire. */
+// test 5 : la regle de repli (enonce 6.2). Au debut, le robot a vu toute l'armoire
 void test_repli()
 {
     std::printf("Test 5 : regle de repli\n");
@@ -247,34 +243,34 @@ void test_repli()
         }
     }
 
-    /* 1. casier exact garni */
-    std::vector<CasierPossible> liste = casiers_a_essayer(4, 1);   /* tristesse / moyenne */
+    // 1. casier exact garni
+    std::vector<CasierPossible> liste = casiers_a_essayer(4, 1); // tristesse / moyenne
     int rang = prochain_casier(liste, vu, contenu);
     verifier(rang == 0 && liste[rang].repli == "aucun", "tristesse/moyenne : [1,4] couverture, repli aucun");
 
-    /* 2. casier exact vide, même émotion garnie */
-    liste = casiers_a_essayer(7, 2);                          /* anticipation / forte */
+    // 2. casier exact vide, meme emotion garnie
+    liste = casiers_a_essayer(7, 2); // anticipation / forte
     rang = prochain_casier(liste, vu, contenu);
     verifier(rang == 1 && meme_casier(liste[rang].position, 1, 7) && liste[rang].repli == "intensite",
              "anticipation/forte : [2,7] vide -> [1,7] calendrier, repli intensite");
 
-    /* 3. colonne entière vide : on passe à une voisine (annexe C.5) */
-    liste = casiers_a_essayer(3, 2);                          /* surprise / forte */
+    // 3. colonne entiere vide : on passe a une voisine (annexe C.5)
+    liste = casiers_a_essayer(3, 2); // surprise / forte
     rang = prochain_casier(liste, vu, contenu);
     verifier(rang == 3 && meme_casier(liste[rang].position, 2, 4) && liste[rang].repli == "voisine_1",
              "surprise/forte : colonne surprise vide -> [2,4] telephone, repli voisine_1");
 
-    /* 4. rien de garni à distance <= 2 : on vide les colonnes 2 à 6 */
+    // 4. rien de garni a distance <= 2 : on vide les colonnes 2 a 6
     for (int l = 0; l < 3; l++) {
         for (int c = 2; c <= 6; c++) {
             contenu[l][c] = "";
         }
     }
-    liste = casiers_a_essayer(4, 1);                          /* tristesse / moyenne */
+    liste = casiers_a_essayer(4, 1); // tristesse / moyenne
     verifier(prochain_casier(liste, vu, contenu) == -1,
              "colonnes 2 a 6 vides : armoire vide (joie, confiance, anticipation sont trop loin)");
 
-    /* 5. pas de repli sans fouille : le robot n'a vu que [1,0] [2,0] [2,1] [2,2] */
+    // 5. pas de repli sans fouille : le robot n'a vu que [1,0] [2,0] [2,1] [2,2]
     for (int l = 0; l < 3; l++) {
         for (int c = 0; c < 8; c++) {
             vu[l][c] = false;
@@ -282,7 +278,7 @@ void test_repli()
         }
     }
     vu[1][0] = vu[2][0] = vu[2][1] = vu[2][2] = true;
-    liste = casiers_a_essayer(3, 2);                          /* surprise / forte */
+    liste = casiers_a_essayer(3, 2); // surprise / forte
     rang = prochain_casier(liste, vu, contenu);
     verifier(rang == 0 && meme_casier(liste[rang].position, 2, 3),
              "bouton d'appel [2,2] croise mais pas pris : on va d'abord voir [2,3]");
@@ -311,7 +307,7 @@ bool est_refuse(const std::string &type, const std::string &chemin){
 }
 
 
-/* Test 6 : test validation */
+// test 6 : un fichier casse par categorie de 5.6, les vrais fichiers doivent passer
 void test_validation(){
     std::printf("Test 6 : validation des fichiers\n");
     verifier(!est_refuse("carte", "cartes/appartement_01.json"), "carte valide : acceptee");
@@ -339,8 +335,7 @@ void test_validation(){
     verifier(est_refuse("dictionnaire", "tests_casses/dico_mot_en_double.json"), "mot dans deux entrees : refuse");
 }
 
-/* Déroule une demande avec l'environnement et l'agent (même boucle que
-   simuler_demande dans main.cpp, sans la trace), et renvoie le bilan. */
+// deroule une demande comme simuler_demande dans main.cpp, sans la trace, et renvoie le bilan
 Bilan derouler_demande(Environnement &env, Agent &agent, const Connaissances &k, const JsonValue &demande)
 {
     std::string resident = demande.get_chaine("resident");
@@ -350,7 +345,8 @@ Bilan derouler_demande(Environnement &env, Agent &agent, const Connaissances &k,
             env.viser_resident(r.pos);
         }
     }
-    for (int pas = 0; pas < 500; pas++) {             /* garde-fou */
+    long long cases = (long long)k.hauteur * k.largeur;
+    for (long long pas = 0; pas < cases * cases + 1000; pas++) { // garde-fou, comme dans main.cpp
         PerceptionRobot p = env.percevoir();
         agent.percevoir(p);
         Action a = agent.decider();
@@ -366,8 +362,8 @@ Bilan derouler_demande(Environnement &env, Agent &agent, const Connaissances &k,
     return agent.bilan();
 }
 
-/* Test 7 : cas inaccessible (énoncé 6.3 et annexe B), sur une grille écrite à la main
-   (tests_cartes/resident_mure.json) : R2 est muré, R1 est accessible. */
+// test 7 : resident inaccessible, sur tests_cartes/resident_mure.json
+// R2 est mure, R1 est accessible
 void test_resident_inaccessible()
 {
     std::printf("Test 7 : resident inaccessible\n");
@@ -398,7 +394,7 @@ void test_resident_inaccessible()
     verifier(b.succes, "demande 2 (R1 accessible) : le scenario continue et reussit");
 }
 
-/* Test mémoire : carte mentale et armoire (énoncé 3.2 et 7), sur appartement_01. */
+// test memoire : carte mentale et armoire (enonce 3.2 et 7), sur appartement_01
 void test_memoire()
 {
     std::printf("Test memoire : carte mentale et armoire\n");
